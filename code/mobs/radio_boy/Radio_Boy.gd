@@ -5,6 +5,7 @@ const JUMP_VELOCITY = 4.5
 
 #Camera Vars
 var camera_offset_z = 12
+var camera_position
 
 
 #Mob Vars
@@ -25,14 +26,17 @@ func _physics_process(delta):
 
 	var input_dir = Input.get_vector("move_up", "move_down", "move_right", "move_left")
 	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+
 	if direction:  #Handle directions (which are only two...)
 		if direction.z < 0:  #We are moving right
 			last_direction = "right"
 			$Radio_Boy_Model.rotation.y = 0
+			move_camera("right", 0.01, 6)
 
 		if direction.z > 0:  #We are moving left
 			last_direction = "left"
 			$Radio_Boy_Model.rotation.y = 3.14  #I guess we are not using regular degrees, we are using radians
+			move_camera("left", 0.01, 6)
 
 		velocity.z = direction.z * SPEED
 		$Radio_Boy_Model/AnimationPlayer.play("Walk test")
@@ -46,26 +50,28 @@ func _physics_process(delta):
 
 	move_and_slide()
 
-#func move_camera(direction, time_taken_to_move, offset_to_fill):
-	#var camera_steps = offset_to_fill * 0.001
-	#var camera_time = time_taken_to_move * 0.001
-	#if direction == "right":
-		#print(camera_steps)
-		#for i in range(1000):
-			#$Camera3D.position.z += camera_steps
-			#await get_tree().create_timer(time_taken_to_move).timeout
-	#
-#
-	#
+
+func move_camera(direction, time_taken_to_move, offset_to_fill):
+	var camera_steps = offset_to_fill * 0.05
+	var camera_step_time = time_taken_to_move * 0.01
+
+	if direction == "right":
+		if camera_position != direction:
+			camera_position = "right"
+			while offset_to_fill >= (abs($Camera3D.position.z - $Radio_Boy_Model.position.z)):
+				$Camera3D.position.z -= camera_steps
+				await get_tree().create_timer(camera_step_time).timeout
+				print(camera_step_time)
+			$Camera3D.position.z = -offset_to_fill
+			return
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	if direction == "left":
+		if camera_position != direction:
+			camera_position = "left"
+			while offset_to_fill >= (abs($Camera3D.position.z - $Radio_Boy_Model.position.z)):
+				$Camera3D.position.z += camera_steps
+				await get_tree().create_timer(camera_step_time).timeout
+				print(camera_step_time)
+			$Camera3D.position.z = +offset_to_fill
+			return
 	
