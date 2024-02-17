@@ -59,8 +59,4 @@ transform = Transform3D(1, 0, 0, 0, 0.999996, -0.00265594, 0, 0.00265594, 0.9999
 [node name="Ant_DX2" parent="Radio_Boy_Model/Node/Root/Torso2/Neck2/Head2" index="3"]
 transform = Transform3D(1, 0, 0, 0, 0.999996, -0.00265594, 0, 0.00265594, 0.999996, 0.3125, 0.75, 0.375)
 
-[node name="Timer" type="Timer" parent="."]
-process_callback = 0
-wait_time = 0.001
-
 [editable path="Radio_Boy_Model"]
