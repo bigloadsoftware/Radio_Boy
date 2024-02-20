@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dsnkn4pb6u8yi"
-path.s3tc="res://.godot/imported/Radio_Boy_4.png-b6eb44d35b944523bd35647e3d4b2ee1.s3tc.ctex"
+uid="uid://dtn2iicwhnx0c"
+path.s3tc="res://.godot/imported/Radio_Boy_6.png-d54ff7091bc20aef2581d0f9fbfce358.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -12,8 +12,8 @@ generator_parameters={}
 
 [deps]
 
-source_file="res://models/mobs/radio_boy/Radio_Boy_4.png"
-dest_files=["res://.godot/imported/Radio_Boy_4.png-b6eb44d35b944523bd35647e3d4b2ee1.s3tc.ctex"]
+source_file="res://models/mobs/radio_boy_alpha/Radio_Boy_6.png"
+dest_files=["res://.godot/imported/Radio_Boy_6.png-d54ff7091bc20aef2581d0f9fbfce358.s3tc.ctex"]
 
 [params]
 

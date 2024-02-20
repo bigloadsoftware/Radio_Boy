@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://6h2qy8h0fcrg"
-path="res://.godot/imported/Radio_Boy.gltf-40f8b5da275410876b9b9db375b1fa19.scn"
+uid="uid://b07fmeamdsu0q"
+path="res://.godot/imported/Radio_Boy_V1.gltf-c6df191a4a5bbbff75d5d9a66abca323.scn"
 
 [deps]
 
-source_file="res://models/mobs/radio_boy/Radio_Boy.gltf"
-dest_files=["res://.godot/imported/Radio_Boy.gltf-40f8b5da275410876b9b9db375b1fa19.scn"]
+source_file="res://scenes/game/Radio_Boy_V1.gltf"
+dest_files=["res://.godot/imported/Radio_Boy_V1.gltf-c6df191a4a5bbbff75d5d9a66abca323.scn"]
 
 [params]
 
