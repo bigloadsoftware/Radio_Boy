@@ -8,10 +8,10 @@ size = Vector3(60, 2, 60)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_y60s2"]
 albedo_texture = ExtResource("1_1pev4")
-uv1_scale = Vector3(100, 50, 1)
+uv1_scale = Vector3(80, 600, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_h8wmq"]
-size = Vector3(60, 2, 60)
+size = Vector3(60, 2, 600)
 
 [node name="Main" type="Node"]
 
@@ -19,6 +19,7 @@ size = Vector3(60, 2, 60)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 10.112, 0, 0, 0)
 shape = SubResource("BoxShape3D_rx06w")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
