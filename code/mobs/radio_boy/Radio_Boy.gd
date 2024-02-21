@@ -1,14 +1,19 @@
 extends CharacterBody3D
 
 const SPEED_WALK = 7.5
+const SPEED_RUN = 30
 const TIME_TURN_WALK = 0.05
 const JUMP_VELOCITY_WALK = 15
+const JUMP_VELOCITY_RUN = 30
 
 
 #Radio Boy Vars
 var rb_last_direction_faced
 var rb_angle_is_changing = 0
 var rb_last_angle_faced : float = 360
+var rb_state_walk_or_run = "Run"
+var rb_movement_speed = SPEED_RUN
+var rb_movement_jump = JUMP_VELOCITY_RUN
 
 #Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
@@ -21,8 +26,20 @@ func _physics_process(delta):
 	#<--
 
 	#-->Handle jump.
-	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
-		velocity.y = JUMP_VELOCITY_WALK
+	if Input.is_action_just_pressed("move_jump") and is_on_floor():
+		velocity.y = rb_movement_jump
+	#<--
+
+	#-->Handle walk/run toggle.
+	if Input.is_action_just_pressed("toggle_walk_or_run"):
+		if rb_state_walk_or_run == "Run":
+			rb_state_walk_or_run = "Walk"
+			rb_movement_speed = SPEED_WALK
+			rb_movement_jump = JUMP_VELOCITY_WALK
+		elif rb_state_walk_or_run == "Walk":
+			rb_state_walk_or_run = "Run"
+			rb_movement_speed = SPEED_RUN
+			rb_movement_jump = JUMP_VELOCITY_RUN
 	#<--
 
 	#-->Handle directions
@@ -40,20 +57,27 @@ func _physics_process(delta):
 			Smooth_Turn(180, TIME_TURN_WALK)
 
 
-		velocity.z = direction.z * SPEED_WALK
-		$Radio_Boy_Model/AnimationPlayer.play("Walk")
+		velocity.z = direction.z * rb_movement_speed
+		$Radio_Boy_Model/AnimationPlayer.play(rb_state_walk_or_run)
 
 	else:
-		velocity.z = move_toward(velocity.z, 0, SPEED_WALK)
+		velocity.z = move_toward(velocity.z, 0, rb_movement_speed)
 		$Radio_Boy_Model/AnimationPlayer.play("Idle")
 		if rb_last_direction_faced == "right":
 			Smooth_Turn(-25, TIME_TURN_WALK)
 		elif rb_last_direction_faced == "left":
 			Smooth_Turn(205, TIME_TURN_WALK)
+	#<--
+
 
 	move_and_slide()
 
 
+
+
+###############################################################
+#						Game Functions						  #
+###############################################################
 
 #-->Smooth Turn()
 #Function that makes the player turn to an angle with a determined speed
@@ -83,7 +107,7 @@ func Smooth_Turn(angle_to_reach, time_taken):
 				angle_real_time += angle_steps
 				$Radio_Boy_Model.rotation.y = deg_to_rad(angle_real_time)
 				await get_tree().create_timer(time_taken_steps).timeout
-		
+
 		else:
 			angle_steps = float(rb_last_angle_faced - angle_to_reach) / float(fps)
 			for i in range(fps):  #60fps
@@ -115,7 +139,7 @@ func Move_Camera(direction, time_taken_to_move, offset_to_fill):
 				print(camera_step_time)
 			$Camera3D.position.z = -offset_to_fill
 			return
-	
+
 	if direction == "left":
 		if camera_position != direction:
 			camera_position = "left"
