@@ -1,7 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://d4lmxxduqq70c"]
-
-[ext_resource type="PackedScene" uid="uid://dhmq5y0dacrgx" path="res://scenes/mobs/radio_boy/Radio_Boy.tscn" id="1_rykbe"]
-
-[node name="Game" type="Node3D"]
-
-[node name="Radio_Boy" parent="." instance=ExtResource("1_rykbe")]

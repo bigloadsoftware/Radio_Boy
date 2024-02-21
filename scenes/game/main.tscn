@@ -8,7 +8,7 @@ size = Vector3(60, 2, 60)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_y60s2"]
 albedo_texture = ExtResource("1_1pev4")
-uv1_scale = Vector3(100, 100, 1)
+uv1_scale = Vector3(100, 50, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_h8wmq"]
 size = Vector3(60, 2, 60)
@@ -27,5 +27,11 @@ mesh = SubResource("BoxMesh_h8wmq")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Ground"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 34, 0)
+shadow_enabled = true
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.30144, 11.4831, 0)
+shadow_enabled = true
+omni_range = 45.948
 
 [node name="Radio_Boy" parent="." instance=ExtResource("1_fbjts")]

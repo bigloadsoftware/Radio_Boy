@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cxpaitndfpnn"
-path="res://.godot/imported/Radio_Boy_V1_1.png-d48b029884bcf7e3d5b67e550abafd93.ctex"
+uid="uid://bxlqhybjt76vv"
+path="res://.godot/imported/Radio_Boy_0.png-fefab1b8dfdcce6beee0d24d3cd3207a.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,8 +11,8 @@ generator_parameters={}
 
 [deps]
 
-source_file="res://models/mobs/radio_boy/Radio_Boy_V1_1.png"
-dest_files=["res://.godot/imported/Radio_Boy_V1_1.png-d48b029884bcf7e3d5b67e550abafd93.ctex"]
+source_file="res://models/mobs/radio_boy/Radio_Boy_0.png"
+dest_files=["res://.godot/imported/Radio_Boy_0.png-fefab1b8dfdcce6beee0d24d3cd3207a.ctex"]
 
 [params]
 
@@ -24,7 +24,7 @@ compress/normal_map=0
 compress/channel_pack=0
 mipmaps/generate=true
 mipmaps/limit=-1
-roughness/mode=1
+roughness/mode=0
 roughness/src_normal=""
 process/fix_alpha_border=true
 process/premult_alpha=false
