@@ -1,28 +1,123 @@
 [gd_scene load_steps=6 format=3 uid="uid://dhmq5y0dacrgx"]
 
 [ext_resource type="Script" path="res://code/mobs/radio_boy/Radio_Boy.gd" id="1_4ga08"]
-[ext_resource type="PackedScene" uid="uid://b1k24owanruyu" path="res://models/mobs/radio_boy/Radio_Boy_V1.gltf" id="2_kx468"]
-[ext_resource type="Texture2D" uid="uid://cxpaitndfpnn" path="res://models/mobs/radio_boy/Radio_Boy_V1_1.png" id="3_hycu6"]
+[ext_resource type="PackedScene" uid="uid://d2swt3k6qvd7j" path="res://models/mobs/radio_boy/Radio_Boy.gltf" id="2_74wy5"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ojd6w"]
-height = 2.96387
+height = 3.22637
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_efs7v"]
-albedo_texture = ExtResource("3_hycu6")
+[sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_62ai7"]
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_1xsu3"]
+states/BlendSpace2D/node = SubResource("AnimationNodeBlendSpace2D_62ai7")
+states/BlendSpace2D/position = Vector2(346, 92)
+states/Start/position = Vector2(224, 115)
 
 [node name="Radio_Boy" type="CharacterBody3D"]
 script = ExtResource("1_4ga08")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1.8, 0, 0, 0, 1.8, 0, 0, 0, 1.2, 0, 2.69401, 0)
+transform = Transform3D(1.8, 0, 0, 0, 1.8, 0, 0, 0, 1.2, 0, 2.9, 0)
 shape = SubResource("CapsuleShape3D_ojd6w")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(-4.37114e-08, -0.0871557, 0.996195, 0, 0.996195, 0.0871557, -1, 3.8097e-09, -4.35451e-08, 15, 5, 0)
+transform = Transform3D(-4.37114e-08, -0.0871557, 0.996195, 0, 0.996195, 0.0871557, -1, 3.8097e-09, -4.35451e-08, 12, 7, 0)
 
-[node name="Radio_Boy_Model" parent="." instance=ExtResource("2_kx468")]
+[node name="Radio_Boy_Model" parent="." instance=ExtResource("2_74wy5")]
 
-[node name="Monitor" parent="Radio_Boy_Model/Node/Root/Torso2/Neck2/Head2" index="3"]
-material_override = SubResource("StandardMaterial3D_efs7v")
+[node name="Root" parent="Radio_Boy_Model/Node" index="0"]
+transform = Transform3D(1, 0, 0, 0, 0.976296, 0.21644, 0, -0.21644, 0.976296, 0, 4.32813, -0.0625)
+
+[node name="Torso2" parent="Radio_Boy_Model/Node/Root" index="0"]
+transform = Transform3D(0.991445, 3.72529e-09, 0.130526, -0.03925, 0.953717, 0.298133, -0.124485, -0.300706, 0.945558, 0, -0.35125, -0.05875)
+
+[node name="Middle_Torso2" parent="Radio_Boy_Model/Node/Root/Torso2" index="0"]
+transform = Transform3D(1, 0, 0, 0, 0.976296, -0.21644, 0, 0.21644, 0.976296, 0, 0.046875, -0.125)
+
+[node name="Head2" parent="Radio_Boy_Model/Node/Root/Torso2/Neck2" index="0"]
+transform = Transform3D(1, 0, 0, 0, 0.92388, -0.382683, 0, 0.382683, 0.92388, 0, 0.375, 0.03125)
+
+[node name="Ant_L2" parent="Radio_Boy_Model/Node/Root/Torso2/Neck2/Head2" index="0"]
+transform = Transform3D(1, 0, 0, 0, 0.939693, -0.34202, 0, 0.34202, 0.939693, -0.316617, 0.698565, 0.403713)
+
+[node name="Ant_R2" parent="Radio_Boy_Model/Node/Root/Torso2/Neck2/Head2" index="1"]
+transform = Transform3D(1, 0, 0, 0, 0.939693, -0.34202, 0, 0.34202, 0.939693, 0.316617, 0.698565, 0.403713)
+
+[node name="Arm_L2" parent="Radio_Boy_Model/Node/Root/Torso2" index="2"]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, -0.749644, 0.734156, 0.0129776)
+
+[node name="Forearm_L2" parent="Radio_Boy_Model/Node/Root/Torso2/Arm_L2" index="0"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.332776, -0.99569, 0.100652)
+
+[node name="Thumb_L" parent="Radio_Boy_Model/Node/Root/Torso2/Arm_L2/Forearm_L2" index="0"]
+transform = Transform3D(0.939693, 0, -0.34202, 0, 1, 0, 0.34202, 0, 0.939693, -0.167224, -0.830749, -0.178321)
+
+[node name="Thumb_Tip_L2" parent="Radio_Boy_Model/Node/Root/Torso2/Arm_L2/Forearm_L2/Thumb_L" index="0"]
+transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, 0.015625, -0.078125, -0.140625)
+
+[node name="Finger_1_L" parent="Radio_Boy_Model/Node/Root/Torso2/Arm_L2/Forearm_L2" index="1"]
+transform = Transform3D(0.843391, -0.5373, 0, 0.5373, 0.843391, 0, 0, 0, 1, -0.104724, -0.972941, -0.106242)
+
+[node name="Finger_Tip1_L2" parent="Radio_Boy_Model/Node/Root/Torso2/Arm_L2/Forearm_L2/Finger_1_L" index="0"]
+transform = Transform3D(0.766044, -0.642788, 0, 0.642788, 0.766044, 0, 0, 0, 1, 0, -0.1875, -0.015625)
+
+[node name="Finger_2_L" parent="Radio_Boy_Model/Node/Root/Torso2/Arm_L2/Forearm_L2" index="2"]
+transform = Transform3D(0.906308, -0.42101, -0.0368336, 0.422618, 0.902859, 0.0789899, 0, -0.0871557, 0.996195, -0.104724, -1.00419, 0.0343828)
+
+[node name="Finger_Tip2_L2" parent="Radio_Boy_Model/Node/Root/Torso2/Arm_L2/Forearm_L2/Finger_2_L" index="0"]
+transform = Transform3D(0.766044, -0.642788, 0, 0.642788, 0.766044, 0, 0, 0, 1, 0, -0.1875, -0.015625)
+
+[node name="Finger_3_L" parent="Radio_Boy_Model/Node/Root/Torso2/Arm_L2/Forearm_L2" index="3"]
+transform = Transform3D(0.843391, -0.529137, -0.0933011, 0.5373, 0.830578, 0.146453, 1.49012e-08, -0.173648, 0.984808, -0.104724, -0.972941, 0.175008)
+
+[node name="Finger_Tip3_L2" parent="Radio_Boy_Model/Node/Root/Torso2/Arm_L2/Forearm_L2/Finger_3_L" index="0"]
+transform = Transform3D(0.819152, -0.573576, 0, 0.573576, 0.819152, 0, 0, 0, 1, 0, -0.1875, -0.015625)
+
+[node name="Arm_R2" parent="Radio_Boy_Model/Node/Root/Torso2" index="3"]
+transform = Transform3D(0.906308, -8.9407e-08, 0.422618, 0.346189, 0.573577, -0.742404, -0.242404, 0.819152, 0.519837, 0.749644, 0.734156, 0.0129776)
+
+[node name="Forearm_R2" parent="Radio_Boy_Model/Node/Root/Torso2/Arm_R2" index="0"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.332776, -0.99569, 0.100652)
+
+[node name="Thumb_R" parent="Radio_Boy_Model/Node/Root/Torso2/Arm_R2/Forearm_R2" index="0"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 0.167224, -0.830749, -0.178321)
+
+[node name="Thumb_Tip_R2" parent="Radio_Boy_Model/Node/Root/Torso2/Arm_R2/Forearm_R2/Thumb_R" index="0"]
+transform = Transform3D(0.939693, 0, 0.34202, 0, 1, 0, -0.34202, 0, 0.939693, -0.015625, -0.078125, -0.140625)
+
+[node name="Finger_1_R" parent="Radio_Boy_Model/Node/Root/Torso2/Arm_R2/Forearm_R2" index="1"]
+transform = Transform3D(0.843391, 0.5373, 0, -0.5373, 0.843391, 0, 0, 0, 1, 0.104724, -0.972941, -0.106242)
+
+[node name="Finger_Tip1_R2" parent="Radio_Boy_Model/Node/Root/Torso2/Arm_R2/Forearm_R2/Finger_1_R" index="0"]
+transform = Transform3D(0.766044, 0.642788, 0, -0.642788, 0.766044, 0, 0, 0, 1, 0, -0.1875, -0.015625)
+
+[node name="Finger_2_R" parent="Radio_Boy_Model/Node/Root/Torso2/Arm_R2/Forearm_R2" index="2"]
+transform = Transform3D(0.906308, 0.42101, 0.0368336, -0.422618, 0.902859, 0.0789899, 0, -0.0871557, 0.996195, 0.104724, -1.00419, 0.0343828)
+
+[node name="Finger_Tip2_R2" parent="Radio_Boy_Model/Node/Root/Torso2/Arm_R2/Forearm_R2/Finger_2_R" index="0"]
+transform = Transform3D(0.766044, 0.642788, 0, -0.642788, 0.766044, 0, 0, 0, 1, 0, -0.1875, -0.015625)
+
+[node name="Finger_3_R" parent="Radio_Boy_Model/Node/Root/Torso2/Arm_R2/Forearm_R2" index="3"]
+transform = Transform3D(0.843391, 0.529137, 0.0933011, -0.5373, 0.830578, 0.146453, -1.49012e-08, -0.173648, 0.984808, 0.104724, -0.972941, 0.175008)
+
+[node name="Finger_Tip3_R2" parent="Radio_Boy_Model/Node/Root/Torso2/Arm_R2/Forearm_R2/Finger_3_R" index="0"]
+transform = Transform3D(0.819152, 0.573576, 0, -0.573576, 0.819152, 0, 0, 0, 1, 0, -0.1875, -0.015625)
+
+[node name="Leg_L2" parent="Radio_Boy_Model/Node/Root/Hips2" index="0"]
+transform = Transform3D(1, 0, 0, 0, 0.939693, 0.34202, 0, -0.34202, 0.939693, -0.499644, -0.0706501, -0.0307153)
+
+[node name="Stilt_L2" parent="Radio_Boy_Model/Node/Root/Hips2/Leg_L2" index="0"]
+transform = Transform3D(1, 0, 0, 0, 0.300706, 0.953717, 0, -0.953717, 0.300706, -0.0625, -1.0625, -0.0625)
+
+[node name="Leg_R2" parent="Radio_Boy_Model/Node/Root/Hips2" index="1"]
+transform = Transform3D(1, 0, 0, 0, 0.382683, -0.92388, 0, 0.92388, 0.382683, 0.499644, -0.0706501, -0.0307153)
+
+[node name="Stilt_R2" parent="Radio_Boy_Model/Node/Root/Hips2/Leg_R2" index="0"]
+transform = Transform3D(1, 0, 0, 0, 0.984808, 0.173648, 0, -0.173648, 0.984808, 0.0625, -1.0625, -0.0625)
+
+[node name="AnimationTree" type="AnimationTree" parent="Radio_Boy_Model/AnimationPlayer" index="0"]
+root_node = NodePath("../..")
+tree_root = SubResource("AnimationNodeStateMachine_1xsu3")
+parameters/BlendSpace2D/blend_position = Vector2(0, -0.0158731)
 
 [editable path="Radio_Boy_Model"]

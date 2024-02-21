@@ -58,5 +58,8 @@ move_jump={
 
 textures/canvas_textures/default_texture_filter=0
 textures/default_filters/use_nearest_mipmap_filter=true
+anti_aliasing/screen_space_roughness_limiter/enabled=false
+scaling_3d/scale=2.0
+scaling_3d/fsr_sharpness=0.2
 textures/decals/filter=0
 textures/light_projectors/filter=0
