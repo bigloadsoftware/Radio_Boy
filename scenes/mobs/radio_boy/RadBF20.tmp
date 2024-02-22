@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://dhmq5y0dacrgx"]
+[gd_scene load_steps=7 format=3 uid="uid://dhmq5y0dacrgx"]
 
 [ext_resource type="Script" path="res://code/mobs/radio_boy/Radio_Boy.gd" id="1_4ga08"]
 [ext_resource type="PackedScene" uid="uid://d2swt3k6qvd7j" path="res://models/mobs/radio_boy/Radio_Boy.gltf" id="2_74wy5"]
@@ -7,7 +7,11 @@
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ojd6w"]
 height = 3.22637
 
+[sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_62ai7"]
+
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_1xsu3"]
+states/BlendSpace2D/node = SubResource("AnimationNodeBlendSpace2D_62ai7")
+states/BlendSpace2D/position = Vector2(346, 92)
 states/Start/position = Vector2(224, 115)
 
 [node name="Radio_Boy" type="CharacterBody3D"]
@@ -94,5 +98,6 @@ transform = Transform3D(1, 0, 0, 0, 0.999048, 0.0436194, 0, -0.0436194, 0.999048
 [node name="AnimationTree" type="AnimationTree" parent="Radio_Boy_Model/AnimationPlayer" index="0"]
 root_node = NodePath("../..")
 tree_root = SubResource("AnimationNodeStateMachine_1xsu3")
+parameters/BlendSpace2D/blend_position = Vector2(0, -0.0158731)
 
 [editable path="Radio_Boy_Model"]

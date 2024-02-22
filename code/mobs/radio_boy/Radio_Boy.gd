@@ -32,14 +32,7 @@ func _physics_process(delta):
 
 	#-->Handle walk/run toggle.
 	if Input.is_action_just_pressed("toggle_walk_or_run"):
-		if rb_state_walk_or_run == "Run":
-			rb_state_walk_or_run = "Walk"
-			rb_movement_speed = SPEED_WALK
-			rb_movement_jump = JUMP_VELOCITY_WALK
-		elif rb_state_walk_or_run == "Walk":
-			rb_state_walk_or_run = "Run"
-			rb_movement_speed = SPEED_RUN
-			rb_movement_jump = JUMP_VELOCITY_RUN
+		Handle_Walk_Run_Toggle()
 	#<--
 
 	#-->Handle directions
@@ -79,7 +72,34 @@ func _physics_process(delta):
 #						Game Functions						  #
 ###############################################################
 
-#-->Smooth Turn()
+#-->Handle_Walk_Run_Toggle()
+#To do list:
+func Handle_Walk_Run_Toggle(state = "Toggle"):
+	if state == "Toggle":
+		if rb_state_walk_or_run == "Run":
+			rb_state_walk_or_run = "Walk"
+			rb_movement_speed = SPEED_WALK
+			rb_movement_jump = JUMP_VELOCITY_WALK
+		elif rb_state_walk_or_run == "Walk":
+			rb_state_walk_or_run = "Run"
+			rb_movement_speed = SPEED_RUN
+			rb_movement_jump = JUMP_VELOCITY_RUN
+
+	elif state == "Run":
+		rb_state_walk_or_run = "Walk"
+		rb_movement_speed = SPEED_WALK
+		rb_movement_jump = JUMP_VELOCITY_WALK
+
+	elif state == "Walk":
+		rb_state_walk_or_run = "Run"
+		rb_movement_speed = SPEED_RUN
+		rb_movement_jump = JUMP_VELOCITY_RUN
+
+	return
+#<--
+
+
+#-->Smooth_Turn()
 #Function that makes the player turn to an angle with a determined speed
 #the FPS needed to make it smooth are calculated dynamically
 #If time_taken = 0, then rotate istantaneously
