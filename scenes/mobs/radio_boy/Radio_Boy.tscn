@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://dhmq5y0dacrgx"]
+[gd_scene load_steps=5 format=3 uid="uid://dhmq5y0dacrgx"]
 
 [ext_resource type="Script" path="res://code/mobs/radio_boy/Radio_Boy.gd" id="1_4ga08"]
 [ext_resource type="PackedScene" uid="uid://d2swt3k6qvd7j" path="res://models/mobs/radio_boy/Radio_Boy.gltf" id="2_74wy5"]
@@ -6,9 +6,6 @@
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ojd6w"]
 height = 3.22637
-
-[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_1xsu3"]
-states/Start/position = Vector2(224, 115)
 
 [node name="Radio_Boy" type="CharacterBody3D"]
 script = ExtResource("1_4ga08")
@@ -90,9 +87,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.499644, -0.0706501, -0.0307
 
 [node name="Stilt_R2" parent="Radio_Boy_Model/Node/Root/Hips2/Leg_R2" index="0"]
 transform = Transform3D(1, 0, 0, 0, 0.999048, 0.0436194, 0, -0.0436194, 0.999048, 0.0625, -1.0625, -0.0625)
-
-[node name="AnimationTree" type="AnimationTree" parent="Radio_Boy_Model/AnimationPlayer" index="0"]
-root_node = NodePath("../..")
-tree_root = SubResource("AnimationNodeStateMachine_1xsu3")
 
 [editable path="Radio_Boy_Model"]
