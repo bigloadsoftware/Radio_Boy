@@ -11,9 +11,14 @@ const JUMP_VELOCITY_RUN = 30
 var rb_last_direction_faced
 var rb_angle_is_changing = 0
 var rb_last_angle_faced : float = 360
-var rb_state_walk_or_run = "Run"
+
+var rb_movement_state = "Run"
 var rb_movement_speed = SPEED_RUN
 var rb_movement_jump = JUMP_VELOCITY_RUN
+
+var rb_movement_state_previous = "Run"
+var rb_movement_speed_previous = SPEED_RUN
+var rb_movement_jump_previous = JUMP_VELOCITY_RUN
 
 #Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
@@ -32,7 +37,7 @@ func _physics_process(delta):
 
 	#-->Handle walk/run toggle.
 	if Input.is_action_just_pressed("toggle_walk_or_run"):
-		Handle_Walk_Run_Toggle()
+		Handle_Movement()
 	#<--
 
 	#-->Handle directions
@@ -40,25 +45,23 @@ func _physics_process(delta):
 	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 
 	if direction:  #Handle directions (which are only two...)
-		if direction.z < 0:  #We are moving right
-			rb_last_direction_faced = "right"
+		if direction.z < 0:  #We are moving Right
+			rb_last_direction_faced = "Right"
 			Smooth_Turn(0, TIME_TURN_WALK)
 
-
-		if direction.z > 0:  #We are moving left
-			rb_last_direction_faced = "left"
+		if direction.z > 0:  #We are moving Left
+			rb_last_direction_faced = "Left"
 			Smooth_Turn(180, TIME_TURN_WALK)
 
-
 		velocity.z = direction.z * rb_movement_speed
-		$Radio_Boy_Model/AnimationPlayer.play(rb_state_walk_or_run)
+		$Radio_Boy_Model/AnimationPlayer.play(rb_movement_state)
 
 	else:
 		velocity.z = move_toward(velocity.z, 0, rb_movement_speed)
 		$Radio_Boy_Model/AnimationPlayer.play("Idle")
-		if rb_last_direction_faced == "right":
+		if rb_last_direction_faced == "Right":
 			Smooth_Turn(-25, TIME_TURN_WALK)
-		elif rb_last_direction_faced == "left":
+		elif rb_last_direction_faced == "Left":
 			Smooth_Turn(205, TIME_TURN_WALK)
 	#<--
 
@@ -72,28 +75,38 @@ func _physics_process(delta):
 #						Game Functions						  #
 ###############################################################
 
-#-->Handle_Walk_Run_Toggle()
+#-->Handle_Movement()
 #To do list:
-func Handle_Walk_Run_Toggle(state = "Toggle"):
+func Handle_Movement(state = "Toggle", memorize_last_movement = 0):
+	if memorize_last_movement:
+		rb_movement_state_previous = rb_movement_state
+		rb_movement_speed_previous = rb_movement_speed
+		rb_movement_jump_previous = rb_movement_jump
+
 	if state == "Toggle":
-		if rb_state_walk_or_run == "Run":
-			rb_state_walk_or_run = "Walk"
+		if rb_movement_state == "Run":
+			rb_movement_state = "Walk"
 			rb_movement_speed = SPEED_WALK
 			rb_movement_jump = JUMP_VELOCITY_WALK
-		elif rb_state_walk_or_run == "Walk":
-			rb_state_walk_or_run = "Run"
+		elif rb_movement_state == "Walk":
+			rb_movement_state = "Run"
 			rb_movement_speed = SPEED_RUN
 			rb_movement_jump = JUMP_VELOCITY_RUN
 
-	elif state == "Run":
-		rb_state_walk_or_run = "Walk"
+	elif state == "Walk":
+		rb_movement_state = "Walk"
 		rb_movement_speed = SPEED_WALK
 		rb_movement_jump = JUMP_VELOCITY_WALK
 
-	elif state == "Walk":
-		rb_state_walk_or_run = "Run"
+	elif state == "Run":
+		rb_movement_state = "Run"
 		rb_movement_speed = SPEED_RUN
 		rb_movement_jump = JUMP_VELOCITY_RUN
+
+	elif state == "Previous":
+		rb_movement_state = rb_movement_state_previous
+		rb_movement_speed = rb_movement_speed_previous
+		rb_movement_jump = rb_movement_jump_previous
 
 	return
 #<--
@@ -150,9 +163,9 @@ func Move_Camera(direction, time_taken_to_move, offset_to_fill):
 	var camera_steps = offset_to_fill * 0.1
 	var camera_step_time = time_taken_to_move * 0.01
 
-	if direction == "right":
+	if direction == "Right":
 		if camera_position != direction:
-			camera_position = "right"
+			camera_position = "Right"
 			while offset_to_fill >= (abs($Camera3D.position.z - $Radio_Boy_Model.position.z)):
 				$Camera3D.position.z -= camera_steps
 				await get_tree().create_timer(camera_step_time).timeout
@@ -160,9 +173,9 @@ func Move_Camera(direction, time_taken_to_move, offset_to_fill):
 			$Camera3D.position.z = -offset_to_fill
 			return
 
-	if direction == "left":
+	if direction == "Left":
 		if camera_position != direction:
-			camera_position = "left"
+			camera_position = "Left"
 			while offset_to_fill >= (abs($Camera3D.position.z - $Radio_Boy_Model.position.z)):
 				$Camera3D.position.z += camera_steps
 				await get_tree().create_timer(camera_step_time).timeout
