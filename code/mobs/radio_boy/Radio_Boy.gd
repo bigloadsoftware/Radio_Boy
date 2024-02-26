@@ -1,9 +1,9 @@
 extends CharacterBody3D
 
 const SPEED_WALK = 7.5
-const SPEED_RUN = 30
+const SPEED_RUN = 25
 const TIME_TURN_WALK = 0.05
-const JUMP_VELOCITY_WALK = 15
+const JUMP_VELOCITY_WALK = 30
 const JUMP_VELOCITY_RUN = 30
 
 

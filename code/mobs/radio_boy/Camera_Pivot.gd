@@ -3,8 +3,9 @@ extends CharacterBody3D
 #Camera Vars
 var mouse_vector
 var camera_offset = transform.basis * Vector3(0, 7, 0) #our used vars are y and z
-var camera_recenter_speed = 10
-var camera_aim_reach = 12  #lower number means that character can aim further away
+var camera_aim_speed = 10
+var camera_recenter_speed = 6
+var camera_aim_reach = 20  #(i think that it is higher) lower number means that character can aim further away
 
 #Outer Node Vars
 var rb_movement_state_previous
