@@ -1,5 +1,7 @@
 extends CharacterBody3D
 
+var state_machine
+
 const SPEED_WALK = 7.5
 const SPEED_RUN = 25
 const TIME_TURN_WALK = 0.05
@@ -12,6 +14,7 @@ var rb_last_direction_faced
 var rb_angle_is_changing = 0
 var rb_last_angle_faced : float = 360
 
+var rb_current_finite_state_machine_state = "Idle"
 var rb_movement_state = "Run"
 var rb_movement_speed = SPEED_RUN
 var rb_movement_jump = JUMP_VELOCITY_RUN
@@ -23,6 +26,9 @@ var rb_movement_jump_previous = JUMP_VELOCITY_RUN
 #Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
+func _ready():
+	$Radio_Boy_Model/AnimationTree.active = 1
+	state_machine = $Radio_Boy_Model/AnimationTree.get("parameters/playback")
 
 func _physics_process(delta):
 	#-->Add gravity
@@ -30,9 +36,16 @@ func _physics_process(delta):
 		velocity.y -= gravity * delta
 	#<--
 
-	#-->Handle jump.
+	#-->Handle jump and falling
 	if Input.is_action_just_pressed("move_jump") and is_on_floor():
 		velocity.y = rb_movement_jump
+		rb_current_finite_state_machine_state = "Jump_On_Floor"
+
+	if not is_on_floor():
+		if velocity.y > 0:
+			rb_current_finite_state_machine_state = "Jump_On_Floor"
+		else:
+			rb_current_finite_state_machine_state = "Falling"
 	#<--
 
 	#-->Handle walk/run toggle.
@@ -54,16 +67,28 @@ func _physics_process(delta):
 			Smooth_Turn(180, TIME_TURN_WALK)
 
 		velocity.z = direction.z * rb_movement_speed
-		$Radio_Boy_Model/AnimationPlayer.play(rb_movement_state)
+		
+		if is_on_floor():
+			rb_current_finite_state_machine_state = "Run"
 
 	else:
 		velocity.z = move_toward(velocity.z, 0, rb_movement_speed)
-		$Radio_Boy_Model/AnimationPlayer.play("Idle")
+
+		if is_on_floor():
+			rb_current_finite_state_machine_state = "Idle"
+
 		if rb_last_direction_faced == "Right":
 			Smooth_Turn(-25, TIME_TURN_WALK)
 		elif rb_last_direction_faced == "Left":
 			Smooth_Turn(205, TIME_TURN_WALK)
 	#<--
+
+	#-->handle crouch
+	if Input.is_action_pressed("crouch"):
+		rb_current_finite_state_machine_state = "Crouch"
+	#<--
+
+	state_machine.travel(rb_current_finite_state_machine_state)
 
 
 	move_and_slide()
