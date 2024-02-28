@@ -3,9 +3,8 @@ extends CharacterBody3D
 #Camera Vars
 var mouse_vector
 var camera_offset = transform.basis * Vector3(0, 7, 0) #our used vars are y and z
-var camera_aim_speed = 10 #what is this variable exactly?
-var camera_recenter_character_speed = 6
-var camera_center_cursor_speed = 12
+var camera_aim_speed = 10
+var camera_recenter_speed = 6
 var camera_aim_reach = 20  #(i think that it is higher) #You're right.... -Leon
 
 #Outer Node Vars
@@ -28,12 +27,12 @@ func _physics_process(_delta):
 		mouse_vector.y /= get_viewport().size.y
 		mouse_vector *= camera_aim_reach
 
-		velocity.z = (-mouse_vector.x - position.z) * camera_center_cursor_speed
-		velocity.y = (-mouse_vector.y + camera_offset.y - position.y) * camera_center_cursor_speed
+		position.z = -mouse_vector.x
+		position.y = -mouse_vector.y + camera_offset.y
 
 	else:
-		velocity.z = (camera_offset.z - position.z) * camera_recenter_character_speed
-		velocity.y = (camera_offset.y - position.y) * camera_recenter_character_speed
+		velocity.z = (camera_offset.z - position.z) * camera_recenter_speed
+		velocity.y = (camera_offset.y - position.y) * camera_recenter_speed
 
 	#<--
 

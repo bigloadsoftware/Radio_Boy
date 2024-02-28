@@ -39,11 +39,11 @@ func _physics_process(delta):
 	#-->Handle jump and falling
 	if Input.is_action_just_pressed("move_jump") and is_on_floor():
 		velocity.y = rb_movement_jump
-		rb_current_finite_state_machine_state = "Jump_Sequence"
+		rb_current_finite_state_machine_state = "Jump_On_Floor"
 
 	if not is_on_floor():
 		if velocity.y > 0:
-			rb_current_finite_state_machine_state = "Jump_Sequence"
+			rb_current_finite_state_machine_state = "Jump_On_Floor"
 		else:
 			rb_current_finite_state_machine_state = "Falling"
 	#<--
@@ -69,7 +69,7 @@ func _physics_process(delta):
 		velocity.z = direction.z * rb_movement_speed
 		
 		if is_on_floor():
-			rb_current_finite_state_machine_state = rb_movement_state
+			rb_current_finite_state_machine_state = "Run"
 
 	else:
 		velocity.z = move_toward(velocity.z, 0, rb_movement_speed)
