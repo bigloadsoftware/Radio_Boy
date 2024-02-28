@@ -16,7 +16,7 @@ size = Vector3(60, 2, 600)
 [node name="Main" type="Node"]
 
 [node name="Ground" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1.08155, -23.1774, -1, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 10.112, 0, 0, 0)
@@ -27,12 +27,10 @@ material_override = SubResource("StandardMaterial3D_y60s2")
 mesh = SubResource("BoxMesh_h8wmq")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Ground"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 34, 0)
+transform = Transform3D(0.846147, 2.72594e-07, 0.53295, -0.53295, -2.23354e-07, 0.846147, 3.49691e-07, -1, -4.37114e-08, 9.52429, 25.5906, 0)
+light_energy = 1.808
+light_indirect_energy = 0.0
+light_volumetric_fog_energy = 0.0
 shadow_enabled = true
-
-[node name="OmniLight3D" type="OmniLight3D" parent="Ground"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.30144, 11.4831, 0)
-shadow_enabled = true
-omni_range = 45.948
 
 [node name="Radio_Boy" parent="." instance=ExtResource("1_fbjts")]
