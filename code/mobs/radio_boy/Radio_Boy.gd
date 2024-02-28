@@ -3,9 +3,9 @@ extends CharacterBody3D
 var state_machine
 
 const SPEED_WALK = 7.5
-const SPEED_RUN = 25
-const TIME_TURN_WALK = 0.05
-const JUMP_VELOCITY_WALK = 30
+const SPEED_RUN = 23
+const TIME_TURN_WALK = 0.06
+const JUMP_VELOCITY_WALK = 25
 const JUMP_VELOCITY_RUN = 30
 
 
@@ -15,6 +15,7 @@ var rb_angle_is_changing = 0
 var rb_last_angle_faced : float = 360
 
 var rb_current_finite_state_machine_state = "Idle"
+var rb_touchdown = 0
 var rb_movement_state = "Run"
 var rb_movement_speed = SPEED_RUN
 var rb_movement_jump = JUMP_VELOCITY_RUN
@@ -46,6 +47,7 @@ func _physics_process(delta):
 			rb_current_finite_state_machine_state = "Jump_On_Floor"
 		else:
 			rb_current_finite_state_machine_state = "Falling"
+			rb_touchdown = 1
 	#<--
 
 	#-->Handle walk/run toggle.
@@ -69,13 +71,17 @@ func _physics_process(delta):
 		velocity.z = direction.z * rb_movement_speed
 		
 		if is_on_floor():
-			rb_current_finite_state_machine_state = "Run"
+			rb_current_finite_state_machine_state = rb_movement_state
 
 	else:
 		velocity.z = move_toward(velocity.z, 0, rb_movement_speed)
 
-		if is_on_floor():
-			rb_current_finite_state_machine_state = "Idle"
+		if is_on_floor():   
+			if !rb_touchdown:
+				rb_current_finite_state_machine_state = "Idle"  
+			else:
+				rb_current_finite_state_machine_state = "Landing"
+				#rb_touchdown = 0
 
 		if rb_last_direction_faced == "Right":
 			Smooth_Turn(-25, TIME_TURN_WALK)
@@ -84,7 +90,7 @@ func _physics_process(delta):
 	#<--
 
 	#-->handle crouch
-	if Input.is_action_pressed("crouch"):
+	if Input.is_action_pressed("crouch") and is_on_floor():
 		rb_current_finite_state_machine_state = "Crouch"
 	#<--
 
@@ -119,12 +125,10 @@ func Handle_Movement(state = "Toggle", memorize_last_movement = 0):
 			rb_movement_jump = JUMP_VELOCITY_RUN
 
 	elif state == "Walk":
-		rb_movement_state = "Walk"
 		rb_movement_speed = SPEED_WALK
 		rb_movement_jump = JUMP_VELOCITY_WALK
 
 	elif state == "Run":
-		rb_movement_state = "Run"
 		rb_movement_speed = SPEED_RUN
 		rb_movement_jump = JUMP_VELOCITY_RUN
 
