@@ -3,10 +3,10 @@ extends CharacterBody3D
 var state_machine
 
 const SPEED_WALK = 7.5
-const SPEED_RUN = 23
+const SPEED_RUN = 20
 const TIME_TURN_WALK = 0.06
-const JUMP_VELOCITY_WALK = 25
-const JUMP_VELOCITY_RUN = 30
+const JUMP_VELOCITY_WALK = 28
+const JUMP_VELOCITY_RUN = 39
 
 
 #Radio Boy Vars
@@ -80,7 +80,7 @@ func _physics_process(delta):
 			if !rb_touchdown:
 				rb_current_finite_state_machine_state = "Idle"  
 			else:
-				rb_current_finite_state_machine_state = "Landing"
+				rb_current_finite_state_machine_state = "Idle"
 				#rb_touchdown = 0
 
 		if rb_last_direction_faced == "Right":
