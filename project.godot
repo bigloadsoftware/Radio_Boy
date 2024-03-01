@@ -72,7 +72,7 @@ crouch={
 
 [physics]
 
-3d/default_gravity=45.0
+3d/default_gravity=70.0
 
 [rendering]
 
