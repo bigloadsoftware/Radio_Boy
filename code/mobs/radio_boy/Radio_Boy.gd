@@ -27,9 +27,13 @@ var rb_movement_jump_previous = JUMP_VELOCITY_RUN
 #Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
+
+
 func _ready():
 	$Radio_Boy_Model/AnimationTree.active = 1
 	state_machine = $Radio_Boy_Model/AnimationTree.get("parameters/playback")
+	$CollisionShape3D_Standing.disabled = false
+	$CollisionShape3D_Crouch.disabled = true
 
 func _physics_process(delta):
 	#-->Add gravity
@@ -92,7 +96,12 @@ func _physics_process(delta):
 	#-->handle crouch
 	if Input.is_action_pressed("crouch") and is_on_floor():
 		rb_current_finite_state_machine_state = "Crouch"
-	#<--
+		$CollisionShape3D_Standing.disabled = true
+		$CollisionShape3D_Crouch.disabled = false
+	else:
+		$CollisionShape3D_Standing.disabled = false
+		$CollisionShape3D_Crouch.disabled = true
+		#<--
 
 	state_machine.travel(rb_current_finite_state_machine_state)
 
