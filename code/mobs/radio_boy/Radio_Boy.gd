@@ -2,10 +2,12 @@ extends CharacterBody3D
 
 var state_machine
 
+const SPEED_CROUCH = 4
 const SPEED_WALK = 7.5
 const SPEED_RUN = 20
 const TIME_TURN_WALK = 0.06
-const JUMP_VELOCITY_WALK = 28
+const JUMP_VELOCITY_CROUCH = 39
+const JUMP_VELOCITY_WALK = 39 #28
 const JUMP_VELOCITY_RUN = 39
 
 
@@ -15,7 +17,9 @@ var rb_angle_is_changing = 0
 var rb_last_angle_faced : float = 360
 
 var rb_current_finite_state_machine_state = "Idle"
-var rb_touchdown = 0
+var rb_player_is_active = 0
+var rb_queue_idle = 0
+var rb_queue_landing = 0
 var rb_movement_state = "Run"
 var rb_movement_speed = SPEED_RUN
 var rb_movement_jump = JUMP_VELOCITY_RUN
@@ -31,39 +35,32 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 func _ready():
 	$Radio_Boy_Model/AnimationTree.active = 1
-	state_machine = $Radio_Boy_Model/AnimationTree.get("parameters/playback")
 	$CollisionShape3D_Standing.disabled = false
 	$CollisionShape3D_Crouch.disabled = true
+	state_machine = $Radio_Boy_Model/AnimationTree.get("parameters/playback")
 
 func _physics_process(delta):
+	rb_player_is_active = 0
 	#-->Add gravity
 	if not is_on_floor():
+		rb_player_is_active = 1
+		rb_queue_idle = 1
 		velocity.y -= gravity * delta
 	#<--
 
-	#-->Handle jump and falling
-	if Input.is_action_just_pressed("move_jump") and is_on_floor():
-		velocity.y = rb_movement_jump
-		rb_current_finite_state_machine_state = "Jump_On_Floor"
-
-	if not is_on_floor():
-		if velocity.y > 0:
-			rb_current_finite_state_machine_state = "Jump_On_Floor"
-		else:
-			rb_current_finite_state_machine_state = "Falling"
-			rb_touchdown = 1
-	#<--
-
-	#-->Handle walk/run toggle.
-	if Input.is_action_just_pressed("toggle_walk_or_run"):
-		Handle_Movement()
-	#<--
+	if rb_queue_idle and !rb_player_is_active:
+		rb_current_finite_state_machine_state = "Idle"
+		rb_queue_idle = 0
 
 	#-->Handle directions
 	var input_dir = Input.get_vector("move_up", "move_down", "move_right", "move_left")
 	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 
 	if direction:  #Handle directions (which are only two...)
+		rb_player_is_active = 1
+		rb_queue_idle = 1
+		velocity.z = direction.z * rb_movement_speed
+		
 		if direction.z < 0:  #We are moving Right
 			rb_last_direction_faced = "Right"
 			Smooth_Turn(0, TIME_TURN_WALK)
@@ -71,37 +68,62 @@ func _physics_process(delta):
 		if direction.z > 0:  #We are moving Left
 			rb_last_direction_faced = "Left"
 			Smooth_Turn(180, TIME_TURN_WALK)
-
-		velocity.z = direction.z * rb_movement_speed
 		
 		if is_on_floor():
 			rb_current_finite_state_machine_state = rb_movement_state
 
 	else:
-		velocity.z = move_toward(velocity.z, 0, rb_movement_speed)
-
-		if is_on_floor():   
-			if !rb_touchdown:
-				rb_current_finite_state_machine_state = "Idle"  
-			else:
-				rb_current_finite_state_machine_state = "Idle"
-				#rb_touchdown = 0
+		velocity.z = move_toward(velocity.z, 0, rb_movement_speed) 
 
 		if rb_last_direction_faced == "Right":
 			Smooth_Turn(-25, TIME_TURN_WALK)
+
 		elif rb_last_direction_faced == "Left":
 			Smooth_Turn(205, TIME_TURN_WALK)
 	#<--
 
+	if is_on_floor() and rb_queue_landing:
+		rb_player_is_active = 1
+		rb_current_finite_state_machine_state = "Landing"
+		rb_queue_landing = 0
+
+	#-->Handle jump and falling
+	if Input.is_action_just_pressed("move_jump") and is_on_floor():
+		rb_player_is_active = 1
+		velocity.y = rb_movement_jump
+		rb_current_finite_state_machine_state = "Jump_On_Floor"
+
+	if !is_on_floor() and velocity.y < 0:
+		rb_player_is_active = 1
+		rb_current_finite_state_machine_state = "Falling"
+		rb_queue_landing = 1
+	#<--
+
+	#-->Handle walk/run toggle.
+	if Input.is_action_just_pressed("toggle_walk_or_run"): 
+		rb_player_is_active = 1
+		Handle_Movement()
+	#<--
+
 	#-->handle crouch
 	if Input.is_action_pressed("crouch") and is_on_floor():
+		rb_player_is_active = 1
 		rb_current_finite_state_machine_state = "Crouch"
 		$CollisionShape3D_Standing.disabled = true
 		$CollisionShape3D_Crouch.disabled = false
+
 	else:
 		$CollisionShape3D_Standing.disabled = false
 		$CollisionShape3D_Crouch.disabled = true
-		#<--
+	#<--
+
+
+	##-->Process Idle state
+	#if 	is_on_wall() and direction.z and !velocity.y and !rb_player_is_active or \
+		#is_on_floor() and !velocity.y and !velocity.z and !rb_player_is_active:
+#
+		#rb_current_finite_state_machine_state = "Idle"
+	##<--
 
 	state_machine.travel(rb_current_finite_state_machine_state)
 
@@ -112,8 +134,18 @@ func _physics_process(delta):
 
 
 ###############################################################
-#						Game Functions						  #
+#					 Character Functions					  #
 ###############################################################
+
+
+#-->Bit_Trigger_Timer()
+func Bit_Trigger_Timer(timer):
+	await get_tree().create_timer(timer).timeout
+	print ("AAAAAAAAAAAAAAAAAAAAARGH!!!")
+	rb_queue_landing = 0
+#<--
+
+
 
 #-->Handle_Movement()
 #To do list:
@@ -128,10 +160,19 @@ func Handle_Movement(state = "Toggle", memorize_last_movement = 0):
 			rb_movement_state = "Walk"
 			rb_movement_speed = SPEED_WALK
 			rb_movement_jump = JUMP_VELOCITY_WALK
+
 		elif rb_movement_state == "Walk":
 			rb_movement_state = "Run"
 			rb_movement_speed = SPEED_RUN
 			rb_movement_jump = JUMP_VELOCITY_RUN
+
+	elif state == "Crouch":
+		rb_movement_speed = SPEED_CROUCH
+		rb_movement_jump = JUMP_VELOCITY_CROUCH
+
+	elif state == "Crouchn't":
+		rb_movement_speed = SPEED_CROUCH
+		rb_movement_jump = JUMP_VELOCITY_CROUCH
 
 	elif state == "Walk":
 		rb_movement_speed = SPEED_WALK
