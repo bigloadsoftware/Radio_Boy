@@ -1,6 +1,7 @@
 extends CharacterBody3D
 
 var state_machine
+var animation_tree
 
 const SPEED_CROUCH = 4
 const SPEED_WALK = 7.5
@@ -37,10 +38,13 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 func _ready():
 	$Radio_Boy_Model/AnimationTree.active = 1
 	state_machine = $Radio_Boy_Model/AnimationTree.get("parameters/playback")
-	
+	animation_tree = $Radio_Boy_Model/AnimationTree
 
 func _physics_process(delta):
 	rb_player_is_active = 0  #This needs to be the first processed variable
+	animation_tree.set("parameters/conditions/IsFalling", false)
+	animation_tree.set("parameters/conditions/GoInIdle", false)
+
 	#-->Add gravity
 	if not is_on_floor():
 		rb_player_is_active = 1
@@ -52,8 +56,6 @@ func _physics_process(delta):
 		rb_current_finite_state_machine_state = "Idle"
 		rb_player_is_crouching = 0
 		rb_queue_idle = 0
-
-	$Radio_Boy_Model/AnimationTree.set("parameters/conditions/IsFalling", false)
 
 	#-->Handle directions
 	var input_dir = Input.get_vector("move_up", "move_down", "move_right", "move_left")
@@ -74,6 +76,10 @@ func _physics_process(delta):
 
 		if is_on_floor():
 			rb_current_finite_state_machine_state = rb_movement_state
+
+			if is_on_wall():
+				animation_tree.set("parameters/conditions/GoInIdle", true)
+				rb_current_finite_state_machine_state = "Idle"
 
 	else:
 		velocity.z = move_toward(velocity.z, 0, rb_movement_speed) 
@@ -98,7 +104,7 @@ func _physics_process(delta):
 
 	if !is_on_floor() and velocity.y < 0:
 		rb_player_is_active = 1
-		$Radio_Boy_Model/AnimationTree.set("parameters/conditions/IsFalling", true)
+		animation_tree.set("parameters/conditions/IsFalling", true)
 		rb_current_finite_state_machine_state = "Falling"
 		rb_queue_landing = 1
 	#<--
@@ -122,19 +128,6 @@ func _physics_process(delta):
 			$CollisionShape3D.scale.y = 1
 			$CollisionShape3D.position.y = 2.8
 	#<--
-
-	if is_on_floor() and is_on_wall() and velocity.z < 0:
-		rb_current_finite_state_machine_state = "Idle"
-
-	elif is_on_floor() and is_on_wall() and velocity.z > 0:
-		rb_current_finite_state_machine_state = "Idle"
-
-	##-->Process Idle state
-	#if 	is_on_wall() and direction.z and !velocity.y and !rb_player_is_active or \
-		#is_on_floor() and !velocity.y and !velocity.z and !rb_player_is_active:
-#
-		#rb_current_finite_state_machine_state = "Idle"
-	##<--
 
 	state_machine.travel(rb_current_finite_state_machine_state)
 
