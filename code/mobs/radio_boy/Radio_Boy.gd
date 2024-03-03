@@ -40,7 +40,7 @@ func _ready():
 	
 
 func _physics_process(delta):
-	rb_player_is_active = 0
+	rb_player_is_active = 0  #This needs to be the first processed variable
 	#-->Add gravity
 	if not is_on_floor():
 		rb_player_is_active = 1
@@ -63,7 +63,7 @@ func _physics_process(delta):
 		rb_player_is_active = 1
 		rb_queue_idle = 1
 		velocity.z = direction.z * rb_movement_speed
-		
+
 		if direction.z < 0:  #We are moving Right
 			rb_last_direction_faced = "Right"
 			Smooth_Turn(0, TIME_TURN_WALK)
@@ -71,7 +71,7 @@ func _physics_process(delta):
 		if direction.z > 0:  #We are moving Left
 			rb_last_direction_faced = "Left"
 			Smooth_Turn(180, TIME_TURN_WALK)
-		
+
 		if is_on_floor():
 			rb_current_finite_state_machine_state = rb_movement_state
 
@@ -84,8 +84,6 @@ func _physics_process(delta):
 		elif rb_last_direction_faced == "Left":
 			Smooth_Turn(205, TIME_TURN_WALK)
 	#<--
-
-
 
 	if is_on_floor() and rb_queue_landing:
 		rb_player_is_active = 1
@@ -118,7 +116,7 @@ func _physics_process(delta):
 		rb_current_finite_state_machine_state = "Crouch"
 		$CollisionShape3D.scale.y = 0.5
 		$CollisionShape3D.position.y = 1.4
-		
+
 	elif Input.is_action_just_released("crouch"):
 			rb_queue_idle = 1
 			$CollisionShape3D.scale.y = 1
@@ -127,9 +125,9 @@ func _physics_process(delta):
 
 	if is_on_floor() and is_on_wall() and velocity.z < 0:
 		rb_current_finite_state_machine_state = "Idle"
+
 	elif is_on_floor() and is_on_wall() and velocity.z > 0:
 		rb_current_finite_state_machine_state = "Idle"
-
 
 	##-->Process Idle state
 	#if 	is_on_wall() and direction.z and !velocity.y and !rb_player_is_active or \
@@ -156,7 +154,6 @@ func Bit_Trigger_Timer(timer):
 	print ("AAAAAAAAAAAAAAAAAAAAARGH!!!")
 	rb_queue_landing = 0
 #<--
-
 
 
 #-->Handle_Movement()
