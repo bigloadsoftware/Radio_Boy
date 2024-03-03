@@ -1,4 +1,4 @@
-[gd_scene load_steps=47 format=3 uid="uid://dhmq5y0dacrgx"]
+[gd_scene load_steps=44 format=3 uid="uid://dhmq5y0dacrgx"]
 
 [ext_resource type="Script" path="res://code/mobs/radio_boy/Radio_Boy.gd" id="1_4ga08"]
 [ext_resource type="PackedScene" uid="uid://8tkljkjvtd71" path="res://models/mobs/radio_boy/Radio_Boy.gltf" id="2_74wy5"]
@@ -2868,27 +2868,32 @@ states/Landing/node = SubResource("AnimationNodeAnimation_r7mkh")
 states/Landing/position = Vector2(314, 100)
 transitions = ["Start", "Landing", SubResource("AnimationNodeStateMachineTransition_i6rk2"), "Landing", "Idle", SubResource("AnimationNodeStateMachineTransition_xaam6")]
 
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_0kd3n"]
+animation = &"Run"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_hi437"]
+animation = &"Idle"
+
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_w18c8"]
 animation = &"Run"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_u0ndf"]
 advance_mode = 2
 
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_lvecl"]
+switch_mode = 2
+advance_mode = 2
+advance_condition = &"GoInIdle"
+
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_xv3oi"]
+states/Idle/node = SubResource("AnimationNodeAnimation_hi437")
+states/Idle/position = Vector2(484, 100)
 states/Run/node = SubResource("AnimationNodeAnimation_w18c8")
 states/Run/position = Vector2(340, 100)
-transitions = ["Start", "Run", SubResource("AnimationNodeStateMachineTransition_u0ndf")]
+transitions = ["Start", "Run", SubResource("AnimationNodeStateMachineTransition_u0ndf"), "Run", "Idle", SubResource("AnimationNodeStateMachineTransition_lvecl")]
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_2yjx5"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_lhxbm"]
 animation = &"Walk"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_sw2hc"]
-advance_mode = 2
-
-[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_525my"]
-states/Walk/node = SubResource("AnimationNodeAnimation_2yjx5")
-states/Walk/position = Vector2(348, 100)
-transitions = ["Start", "Walk", SubResource("AnimationNodeStateMachineTransition_sw2hc")]
 
 [sub_resource type="Curve" id="Curve_e55lr"]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
@@ -2904,44 +2909,26 @@ advance_condition = &"IsFalling"
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_3lgw7"]
 advance_mode = 2
 
-[sub_resource type="Curve" id="Curve_0qvqr"]
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_nadrd"]
-xfade_time = 0.2
-xfade_curve = SubResource("Curve_0qvqr")
-advance_mode = 2
-advance_condition = &"GoInIdle"
-
-[sub_resource type="Curve" id="Curve_vy2fb"]
-_data = [Vector2(0.246575, 0), 0.0, 0.0, 0, 0, Vector2(0.99999, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
-point_count = 3
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_3tfff"]
-xfade_time = 0.4
-xfade_curve = SubResource("Curve_vy2fb")
-advance_mode = 2
-advance_condition = &"GoInIdle"
-
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_27ej4"]
 states/Crouch/node = SubResource("AnimationNodeAnimation_agvam")
-states/Crouch/position = Vector2(202, 220)
+states/Crouch/position = Vector2(202, 189)
 states/Falling/node = SubResource("AnimationNodeAnimation_pylpm")
-states/Falling/position = Vector2(520, 220)
+states/Falling/position = Vector2(520, 189)
 states/Idle/node = SubResource("AnimationNodeAnimation_2jvse")
 states/Idle/position = Vector2(357, 100)
 states/Jump_On_Floor/node = SubResource("AnimationNodeStateMachine_aj02s")
-states/Jump_On_Floor/position = Vector2(357, 220)
+states/Jump_On_Floor/position = Vector2(357, 189)
 states/Landing/node = SubResource("AnimationNodeStateMachine_6q6np")
-states/Landing/position = Vector2(657, 220)
-states/Run/node = SubResource("AnimationNodeStateMachine_xv3oi")
-states/Run/position = Vector2(497, 100)
+states/Landing/position = Vector2(657, 189)
+states/Run2/node = SubResource("AnimationNodeAnimation_0kd3n")
+states/Run2/position = Vector2(629, 36)
 states/Start/position = Vector2(202, 100)
-states/Walk/node = SubResource("AnimationNodeStateMachine_525my")
-states/Walk/position = Vector2(497, 160)
-transitions = ["Jump_On_Floor", "Falling", SubResource("AnimationNodeStateMachineTransition_4fvnk"), "Start", "Idle", SubResource("AnimationNodeStateMachineTransition_3lgw7"), "Run", "Idle", SubResource("AnimationNodeStateMachineTransition_nadrd"), "Walk", "Idle", SubResource("AnimationNodeStateMachineTransition_3tfff")]
-graph_offset = Vector2(-156, 40)
+states/StateMachine/node = SubResource("AnimationNodeStateMachine_xv3oi")
+states/StateMachine/position = Vector2(629, 100)
+states/Walk/node = SubResource("AnimationNodeAnimation_lhxbm")
+states/Walk/position = Vector2(472, 100)
+transitions = ["Jump_On_Floor", "Falling", SubResource("AnimationNodeStateMachineTransition_4fvnk"), "Start", "Idle", SubResource("AnimationNodeStateMachineTransition_3lgw7")]
+graph_offset = Vector2(-81, -6)
 
 [node name="Radio_Boy" type="CharacterBody3D"]
 script = ExtResource("1_4ga08")
@@ -2960,17 +2947,23 @@ script = ExtResource("3_amske")
 
 [node name="Radio_Boy_Model" parent="." instance=ExtResource("2_74wy5")]
 
+[node name="Root" parent="Radio_Boy_Model/Node" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
 [node name="Torso2" parent="Radio_Boy_Model/Node/Root" index="0"]
-transform = Transform3D(0.996923, 0, -0.0783798, 0, 1, 0, 0.0783798, 0, 0.996923, 0, -0.382393, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="Middle_Torso2" parent="Radio_Boy_Model/Node/Root/Torso2" index="3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="Head2" parent="Radio_Boy_Model/Node/Root/Torso2/Neck2" index="1"]
-transform = Transform3D(1, 0, 0, 0, 0.996195, 0.0871558, 0, -0.0871558, 0.996195, 0, 0.330793, 0.03125)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="Ant_L2" parent="Radio_Boy_Model/Node/Root/Torso2/Neck2/Head2" index="4"]
-transform = Transform3D(1, 0, 0, 0, 0.972497, -0.232915, 0, 0.232915, 0.972497, -0.316617, 0.698565, 0.403713)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.316617, 0.698565, 0.403713)
 
 [node name="Ant_R2" parent="Radio_Boy_Model/Node/Root/Torso2/Neck2/Head2" index="5"]
-transform = Transform3D(1, 0, 0, 0, 0.972497, -0.232915, 0, 0.232915, 0.972497, 0.316617, 0.698565, 0.403713)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.316617, 0.698565, 0.403713)
 
 [node name="SpotLight3D" type="SpotLight3D" parent="Radio_Boy_Model/Node/Root/Torso2/Neck2/Head2" index="6"]
 transform = Transform3D(1, 4.65661e-10, -7.45058e-09, 0, -1, 6.70552e-08, -7.45058e-09, -8.9407e-08, -1, -9.31323e-10, 0.5, -0.85)
@@ -2987,10 +2980,10 @@ shadow_enabled = true
 spot_angle = 40.0
 
 [node name="Arm_L2" parent="Radio_Boy_Model/Node/Root/Torso2" index="5"]
-transform = Transform3D(1, 0, 0, 0, 0.935798, -0.352533, 0, 0.352533, 0.935797, -0.749644, 0.734156, 0.0129776)
+transform = Transform3D(1, 0, 0, 0, 0.999999, 0, 0, 0, 0.999998, 0, 0, 0)
 
 [node name="Forearm_L2" parent="Radio_Boy_Model/Node/Root/Torso2/Arm_L2" index="1"]
-transform = Transform3D(0.999999, 0, 0, 0, 0.936187, -0.351504, 0, 0.351505, 0.936186, -0.332776, -0.99569, 0.100652)
+transform = Transform3D(0.999999, 0, 0, 0, 1, 0, 0, 0, 1, -0.332776, -0.99569, 0.100652)
 
 [node name="Thumb_L" parent="Radio_Boy_Model/Node/Root/Torso2/Arm_L2/Forearm_L2" index="1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.167224, -0.830749, -0.178321)
@@ -2999,19 +2992,19 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.167224, -0.830749, -0.1783
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.104724, -0.972941, -0.106242)
 
 [node name="Finger_2_L" parent="Radio_Boy_Model/Node/Root/Torso2/Arm_L2/Forearm_L2" index="3"]
-transform = Transform3D(1, 0, 0, 0, 0.996195, 0.0871558, 0, -0.0871558, 0.996195, -0.104724, -1.00419, 0.0343828)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.104724, -1.00419, 0.0343828)
 
 [node name="Finger_3_L" parent="Radio_Boy_Model/Node/Root/Torso2/Arm_L2/Forearm_L2" index="4"]
-transform = Transform3D(1, 0, 0, 0, 0.984807, 0.173648, 0, -0.173648, 0.984808, -0.104724, -0.972941, 0.175008)
+transform = Transform3D(1, 0, 0, 0, 0.999999, 0, 0, 0, 1, -0.104724, -0.972941, 0.175008)
 
 [node name="Finger_Tip3_L2" parent="Radio_Boy_Model/Node/Root/Torso2/Arm_L2/Forearm_L2/Finger_3_L" index="1"]
 transform = Transform3D(0.999998, 0, 0, 0, 0.999998, 0, 0, 0, 1, 0, -0.1875, -0.015625)
 
 [node name="Arm_R2" parent="Radio_Boy_Model/Node/Root/Torso2" index="6"]
-transform = Transform3D(1, 0, 0, 0, 0.984748, -0.173981, 0, 0.173981, 0.984749, 0.749644, 0.734156, 0.0129776)
+transform = Transform3D(1, 0, 0, 0, 0.999999, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="Forearm_R2" parent="Radio_Boy_Model/Node/Root/Torso2/Arm_R2" index="1"]
-transform = Transform3D(1, 0, 0, 0, 0.954953, -0.29676, 0, 0.29676, 0.954951, 0.332776, -0.99569, 0.100652)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.999999, 0.332776, -0.99569, 0.100652)
 
 [node name="Thumb_R" parent="Radio_Boy_Model/Node/Root/Torso2/Arm_R2/Forearm_R2" index="1"]
 transform = Transform3D(0.999999, 0, 0, 0, 1, 0, 0, 0, 0.999999, 0.167224, -0.830749, -0.178321)
@@ -3020,28 +3013,28 @@ transform = Transform3D(0.999999, 0, 0, 0, 1, 0, 0, 0, 0.999999, 0.167224, -0.83
 transform = Transform3D(0.999999, 0, 0, 0, 0.999999, 0, 0, 0, 1, 0.104724, -0.972941, -0.106242)
 
 [node name="Finger_2_R" parent="Radio_Boy_Model/Node/Root/Torso2/Arm_R2/Forearm_R2" index="3"]
-transform = Transform3D(0.999998, 0, 0, 0, 0.996195, 0.0871558, 0, -0.0871558, 0.996195, 0.104724, -1.00419, 0.0343828)
+transform = Transform3D(0.999998, 0, 0, 0, 1, 0, 0, 0, 1, 0.104724, -1.00419, 0.0343828)
 
 [node name="Finger_3_R" parent="Radio_Boy_Model/Node/Root/Torso2/Arm_R2/Forearm_R2" index="4"]
-transform = Transform3D(1, 0, 0, 0, 0.984807, 0.173648, 0, -0.173648, 0.984808, 0.104724, -0.972941, 0.175008)
+transform = Transform3D(1, 0, 0, 0, 0.999999, 0, 0, 0, 1, 0.104724, -0.972941, 0.175008)
 
 [node name="Backpack2" parent="Radio_Boy_Model/Node/Root/Torso2" index="7"]
-transform = Transform3D(0.998326, 0.05784, 0, -0.05784, 0.998326, 0, 0, 0, 0.999999, 0.00148537, 0.777778, 0.286006)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.999999, 0.00148537, 0.777778, 0.286006)
 
 [node name="Hips2" parent="Radio_Boy_Model/Node/Root" index="1"]
-transform = Transform3D(0.998183, 0, 0.0602508, 0, 1, 0, -0.0602508, 0, 0.998183, 0, -0.651823, -0.09375)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="Leg_L2" parent="Radio_Boy_Model/Node/Root/Hips2" index="2"]
-transform = Transform3D(1, 0, 0, 0, 0.994696, -0.102854, 0, 0.102854, 0.994696, -0.499644, -0.0706501, -0.0307153)
+transform = Transform3D(1, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, -0.499644, -0.0706501, -0.0307153)
 
 [node name="Stilt_L2" parent="Radio_Boy_Model/Node/Root/Hips2/Leg_L2" index="1"]
-transform = Transform3D(1, 0, 0, 0, 0.980425, 0.196893, 0, -0.196893, 0.980425, -0.0625, -1.0625, -0.0625)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0625, -1.0625, -0.0625)
 
 [node name="Leg_R2" parent="Radio_Boy_Model/Node/Root/Hips2" index="3"]
-transform = Transform3D(1, 0, 0, 0, 0.994696, -0.102854, 0, 0.102854, 0.994696, 0.499644, -0.0706501, -0.0307153)
+transform = Transform3D(1, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, 0.499644, -0.0706501, -0.0307153)
 
 [node name="Stilt_R2" parent="Radio_Boy_Model/Node/Root/Hips2/Leg_R2" index="1"]
-transform = Transform3D(1, 0, 0, 0, 0.980424, 0.196892, 0, -0.196892, 0.980424, 0.0625, -1.0625, -0.0625)
+transform = Transform3D(1, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, 0.0625, -1.0625, -0.0625)
 
 [node name="AnimationTree" type="AnimationTree" parent="Radio_Boy_Model"]
 libraries = {
@@ -3049,7 +3042,7 @@ libraries = {
 }
 tree_root = SubResource("AnimationNodeStateMachine_27ej4")
 anim_player = NodePath("../AnimationPlayer")
-parameters/conditions/GoInIdle = false
 parameters/conditions/IsFalling = false
+parameters/StateMachine/conditions/GoInIdle = false
 
 [editable path="Radio_Boy_Model"]
