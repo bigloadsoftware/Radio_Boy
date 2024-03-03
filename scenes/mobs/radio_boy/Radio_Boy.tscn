@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://dhmq5y0dacrgx"]
+[gd_scene load_steps=40 format=3 uid="uid://dhmq5y0dacrgx"]
 
 [ext_resource type="Script" path="res://code/mobs/radio_boy/Radio_Boy.gd" id="1_4ga08"]
 [ext_resource type="PackedScene" uid="uid://8tkljkjvtd71" path="res://models/mobs/radio_boy/Radio_Boy.gltf" id="2_74wy5"]
@@ -2878,7 +2878,6 @@ point_count = 2
 xfade_time = 0.2
 xfade_curve = SubResource("Curve_o5spq")
 advance_mode = 2
-advance_condition = &"IsFalling"
 
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_27ej4"]
 states/Crouch/node = SubResource("AnimationNodeAnimation_agvam")
@@ -2896,8 +2895,8 @@ states/Run/position = Vector2(582, 100)
 states/Start/position = Vector2(202, 100)
 states/Walk/node = SubResource("AnimationNodeAnimation_lhxbm")
 states/Walk/position = Vector2(472, 100)
-transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_3lgw7"), "Jump_On_Floor", "Falling", SubResource("AnimationNodeStateMachineTransition_ynivu")]
-graph_offset = Vector2(-57, 34)
+transitions = ["Jump_On_Floor", "Falling", SubResource("AnimationNodeStateMachineTransition_4fvnk"), "Start", "Idle", SubResource("AnimationNodeStateMachineTransition_3lgw7")]
+graph_offset = Vector2(-81, -6)
 
 [node name="Radio_Boy" type="CharacterBody3D"]
 script = ExtResource("1_4ga08")
@@ -2920,13 +2919,10 @@ script = ExtResource("3_amske")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="Torso2" parent="Radio_Boy_Model/Node/Root" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
-
-[node name="Middle_Torso2" parent="Radio_Boy_Model/Node/Root/Torso2" index="3"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 0.88991, 0.456137, 0, -0.456137, 0.88991, 0, -0.3125, 0)
 
 [node name="Head2" parent="Radio_Boy_Model/Node/Root/Torso2/Neck2" index="1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 0.999604, 0.0281413, 0, -0.0281413, 0.999604, 0, 0.375, 0.03125)
 
 [node name="Ant_L2" parent="Radio_Boy_Model/Node/Root/Torso2/Neck2/Head2" index="4"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.316617, 0.698565, 0.403713)
@@ -2950,15 +2946,10 @@ spot_range = 6.05278
 spot_angle = 28.513
 
 [node name="Arm_L2" parent="Radio_Boy_Model/Node/Root/Torso2" index="5"]
-transform = Transform3D(1, 0, 0, 0, 0.999998, 0, 0, 0, 0.999997, 0, 0, 0)
+transform = Transform3D(0.898275, 0.370509, -0.236272, -0.431344, 0.84613, -0.313054, 0.0839273, 0.383124, 0.919874, -0.874644, 0.671656, 0.0129776)
 
 [node name="Forearm_L2" parent="Radio_Boy_Model/Node/Root/Torso2/Arm_L2" index="1"]
-transform = Transform3D(0.999999, 0, 0, 0, 1, 0, 0, 0, 1, -0.332776, -0.99569, 0.100652)
-
-[node name="SpotLight3D" type="SpotLight3D" parent="Radio_Boy_Model/Node/Root/Torso2/Arm_L2/Forearm_L2/Forearm_L" index="0"]
-transform = Transform3D(-4.37115e-08, -0.00872655, -0.999963, 0, 0.999963, -0.00872655, 1, 4.17233e-07, -4.70318e-08, -1.49655, 2.37255, -0.0771042)
-light_energy = 0.5
-spot_range = 0.36
+transform = Transform3D(0.843391, 0.509624, 0.170219, -0.183767, 0.571298, -0.799905, -0.504896, 0.643353, 0.57548, -0.332776, -0.99569, 0.100652)
 
 [node name="Thumb_L" parent="Radio_Boy_Model/Node/Root/Torso2/Arm_L2/Forearm_L2" index="1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.167224, -0.830749, -0.178321)
@@ -2976,15 +2967,10 @@ transform = Transform3D(1, 0, 0, 0, 0.999999, 0, 0, 0, 1, -0.104724, -0.972941, 
 transform = Transform3D(0.999997, 0, 0, 0, 0.999997, 0, 0, 0, 1, 0, -0.1875, -0.015625)
 
 [node name="Arm_R2" parent="Radio_Boy_Model/Node/Root/Torso2" index="6"]
-transform = Transform3D(1, 0, 0, 0, 0.999999, 0, 0, 0, 1, 0, 0, 0)
+transform = Transform3D(0.898275, -0.370509, -0.236272, 0.431345, 0.846131, 0.313055, 0.0839274, -0.383124, 0.919876, 0.874644, 0.671656, 0.0129776)
 
 [node name="Forearm_R2" parent="Radio_Boy_Model/Node/Root/Torso2/Arm_R2" index="1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.999998, 0.332776, -0.99569, 0.100652)
-
-[node name="SpotLight3D" type="SpotLight3D" parent="Radio_Boy_Model/Node/Root/Torso2/Arm_R2/Forearm_R2/Forearm_R" index="0"]
-transform = Transform3D(-4.37115e-08, 0.00872653, 0.999962, 0, 0.999962, -0.00872654, -1, -3.81449e-10, -4.37097e-08, 1.48853, 2.37255, -0.0771042)
-light_energy = 0.5
-spot_range = 0.36
+transform = Transform3D(0.843391, -0.475702, -0.249798, 0.183767, 0.692265, -0.697853, 0.504897, 0.54266, 0.671267, 0.332776, -0.99569, 0.100652)
 
 [node name="Thumb_R" parent="Radio_Boy_Model/Node/Root/Torso2/Arm_R2/Forearm_R2" index="1"]
 transform = Transform3D(0.999998, 0, 0, 0, 1, 0, 0, 0, 0.999998, 0.167224, -0.830749, -0.178321)
@@ -2993,28 +2979,25 @@ transform = Transform3D(0.999998, 0, 0, 0, 1, 0, 0, 0, 0.999998, 0.167224, -0.83
 transform = Transform3D(0.999999, 0, 0, 0, 0.999999, 0, 0, 0, 1, 0.104724, -0.972941, -0.106242)
 
 [node name="Finger_2_R" parent="Radio_Boy_Model/Node/Root/Torso2/Arm_R2/Forearm_R2" index="3"]
-transform = Transform3D(0.999998, 0, 0, 0, 1, 0, 0, 0, 1, 0.104724, -1.00419, 0.0343828)
+transform = Transform3D(0.999998, 0, 0, 0, 0.996195, 0.0871558, 0, -0.0871557, 0.996195, 0.104724, -1.00419, 0.0343828)
 
 [node name="Finger_3_R" parent="Radio_Boy_Model/Node/Root/Torso2/Arm_R2/Forearm_R2" index="4"]
 transform = Transform3D(1, 0, 0, 0, 0.999999, 0, 0, 0, 1, 0.104724, -0.972941, 0.175008)
 
 [node name="Backpack2" parent="Radio_Boy_Model/Node/Root/Torso2" index="7"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.999999, 0.00148537, 0.777778, 0.286006)
-
-[node name="Hips2" parent="Radio_Boy_Model/Node/Root" index="1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 0.915433, 0.40247, 0, -0.40247, 0.915432, 0.00148537, 0.777778, 0.286006)
 
 [node name="Leg_L2" parent="Radio_Boy_Model/Node/Root/Hips2" index="2"]
-transform = Transform3D(1, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, -0.499644, -0.0706501, -0.0307153)
+transform = Transform3D(1, 0, 0, 0, 0.804674, -0.593716, 0, 0.593716, 0.804674, -0.499644, -0.0706501, -0.0307153)
 
 [node name="Stilt_L2" parent="Radio_Boy_Model/Node/Root/Hips2/Leg_L2" index="1"]
-transform = Transform3D(1, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, -0.0625, -1.0625, -0.0625)
+transform = Transform3D(1, 0, 0, 0, 0.58488, 0.811119, 0, -0.811119, 0.58488, -0.0625, -1.0625, -0.0625)
 
 [node name="Leg_R2" parent="Radio_Boy_Model/Node/Root/Hips2" index="3"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.499644, -0.0706501, -0.0307153)
+transform = Transform3D(1, 0, 0, 0, 0.722715, -0.691146, 0, 0.691146, 0.722715, 0.499644, -0.0706501, -0.0307153)
 
 [node name="Stilt_R2" parent="Radio_Boy_Model/Node/Root/Hips2/Leg_R2" index="1"]
-transform = Transform3D(1, 0, 0, 0, 0.999998, 0, 0, 0, 0.999998, 0.0625, -1.0625, -0.0625)
+transform = Transform3D(1, 0, 0, 0, 0.152625, 0.988283, 0, -0.988283, 0.152625, 0.0625, -1.0625, -0.0625)
 
 [node name="AnimationTree" type="AnimationTree" parent="Radio_Boy_Model"]
 libraries = {
@@ -3022,7 +3005,5 @@ libraries = {
 }
 tree_root = SubResource("AnimationNodeStateMachine_27ej4")
 anim_player = NodePath("../AnimationPlayer")
-"parameters/conditions/ " = false
-parameters/conditions/IsFalling = false
 
 [editable path="Radio_Boy_Model"]
