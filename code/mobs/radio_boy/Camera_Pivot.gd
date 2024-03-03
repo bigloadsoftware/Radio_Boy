@@ -2,14 +2,11 @@ extends CharacterBody3D
 
 #Camera Vars
 var mouse_vector
-var joypad_vector = Vector2(0, 0)
-var joypad_trigger_threshold : float = 0.05
 var camera_offset = transform.basis * Vector3(0, 7, 0) #our used vars are y and z
 var camera_aim_speed = 10 #what is this variable exactly?
 var camera_recenter_character_speed = 10
 var camera_center_cursor_speed = 12
 var camera_aim_reach = 20  #(i think that it is higher) #You're right.... -Leon
-var camera_aim_reach_joystick = 14
 
 #Outer Node Vars
 var rb_movement_state_previous
@@ -18,10 +15,6 @@ func _physics_process(_delta):
 	#-->Handle aim
 	#To do list:
 	#-This one needs a timer so it doesn't get processed every machine cycle (so we can make this a little bit more efficient)
-	#Right Joystick input
-	joypad_vector.x = Input.get_action_strength("joypad_aim_right") - Input.get_action_strength("joypad_aim_left")
-	joypad_vector.y = -Input.get_action_strength("joypad_aim_up") + Input.get_action_strength("joypad_aim_down")
-	
 	if Input.is_action_just_pressed("aim"):
 		rb_movement_state_previous = $"..".rb_movement_state
 		$"..".Handle_Movement("Walk", 1)
@@ -38,17 +31,10 @@ func _physics_process(_delta):
 		velocity.z = (-mouse_vector.x - position.z) * camera_center_cursor_speed
 		velocity.y = (-mouse_vector.y + camera_offset.y - position.y) * camera_center_cursor_speed
 
-	elif abs(joypad_vector.x) > joypad_trigger_threshold or abs(joypad_vector.y) > joypad_trigger_threshold:
-		joypad_vector *= camera_aim_reach_joystick
-
-		velocity.z = (-joypad_vector.x - position.z) * camera_center_cursor_speed
-		velocity.y = (-joypad_vector.y + camera_offset.y - position.y) * camera_center_cursor_speed
-
 	else:
 		velocity.z = (camera_offset.z - position.z) * camera_recenter_character_speed
 		velocity.y = (camera_offset.y - position.y) * camera_recenter_character_speed
-	#<--
-	
 
+	#<--
 
 	move_and_slide()
