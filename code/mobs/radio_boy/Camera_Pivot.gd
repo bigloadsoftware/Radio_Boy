@@ -5,11 +5,10 @@ var mouse_vector
 var joypad_vector = Vector2(0, 0)
 var joypad_trigger_threshold : float = 0.05
 var camera_offset = transform.basis * Vector3(0, 7, 0) #our used vars are y and z
-var camera_aim_speed = 10 #what is this variable exactly?
 var camera_recenter_character_speed = 10
 var camera_center_cursor_speed = 12
 var camera_aim_reach = 20  #(i think that it is higher) #You're right.... -Leon
-var camera_aim_reach_joystick = 14
+var camera_aim_reach_joystick = 10
 
 #Outer Node Vars
 var rb_movement_state_previous
