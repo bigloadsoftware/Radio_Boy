@@ -7,7 +7,7 @@
 [sub_resource type="BoxShape3D" id="BoxShape3D_4gaqj"]
 size = Vector3(1, 5.59521, 2.04721)
 
-[sub_resource type="Animation" id="Animation_tl4ar"]
+[sub_resource type="Animation" id="Animation_guo3b"]
 resource_name = "Idle"
 length = 2.0
 loop_mode = 1
@@ -285,7 +285,7 @@ tracks/38/interp = 1
 tracks/38/loop_wrap = true
 tracks/38/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1)
 
-[sub_resource type="Animation" id="Animation_3eftm"]
+[sub_resource type="Animation" id="Animation_4210a"]
 resource_name = "Walk"
 length = 1.25
 loop_mode = 1
@@ -563,7 +563,7 @@ tracks/38/interp = 1
 tracks/38/loop_wrap = true
 tracks/38/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1)
 
-[sub_resource type="Animation" id="Animation_phq6i"]
+[sub_resource type="Animation" id="Animation_0f565"]
 resource_name = "Run"
 length = 0.854167
 loop_mode = 1
@@ -841,7 +841,7 @@ tracks/38/interp = 1
 tracks/38/loop_wrap = true
 tracks/38/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1)
 
-[sub_resource type="Animation" id="Animation_nryx0"]
+[sub_resource type="Animation" id="Animation_twl4y"]
 resource_name = "Crouch"
 length = 0.166667
 tracks/0/type = "position_3d"
@@ -1118,7 +1118,7 @@ tracks/38/interp = 1
 tracks/38/loop_wrap = true
 tracks/38/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1)
 
-[sub_resource type="Animation" id="Animation_imhc4"]
+[sub_resource type="Animation" id="Animation_1sivc"]
 resource_name = "Jump_On_Floor"
 length = 0.166667
 tracks/0/type = "position_3d"
@@ -1395,7 +1395,7 @@ tracks/38/interp = 1
 tracks/38/loop_wrap = true
 tracks/38/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1)
 
-[sub_resource type="Animation" id="Animation_wxxev"]
+[sub_resource type="Animation" id="Animation_fq2o3"]
 resource_name = "Jump_In_Air"
 length = 1.41667
 loop_mode = 1
@@ -1673,7 +1673,7 @@ tracks/38/interp = 1
 tracks/38/loop_wrap = true
 tracks/38/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1)
 
-[sub_resource type="Animation" id="Animation_ic1x7"]
+[sub_resource type="Animation" id="Animation_v20to"]
 resource_name = "Falling"
 length = 1.41667
 loop_mode = 1
@@ -1951,7 +1951,7 @@ tracks/38/interp = 1
 tracks/38/loop_wrap = true
 tracks/38/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1)
 
-[sub_resource type="Animation" id="Animation_r2qk5"]
+[sub_resource type="Animation" id="Animation_i6p5g"]
 resource_name = "Landing"
 length = 0.416667
 tracks/0/type = "position_3d"
@@ -2228,7 +2228,7 @@ tracks/38/interp = 1
 tracks/38/loop_wrap = true
 tracks/38/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1)
 
-[sub_resource type="Animation" id="Animation_0pbyy"]
+[sub_resource type="Animation" id="Animation_wh3cw"]
 resource_name = "Interact"
 length = 0.001
 tracks/0/type = "position_3d"
@@ -2505,7 +2505,7 @@ tracks/38/interp = 1
 tracks/38/loop_wrap = true
 tracks/38/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1)
 
-[sub_resource type="Animation" id="Animation_6wsmi"]
+[sub_resource type="Animation" id="Animation_hleyk"]
 resource_name = "Wave"
 length = 0.001
 tracks/0/type = "position_3d"
@@ -2782,18 +2782,18 @@ tracks/38/interp = 1
 tracks/38/loop_wrap = true
 tracks/38/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1)
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_uhvp0"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_uwyp0"]
 _data = {
-"Crouch": SubResource("Animation_nryx0"),
-"Falling": SubResource("Animation_ic1x7"),
-"Idle": SubResource("Animation_tl4ar"),
-"Interact": SubResource("Animation_0pbyy"),
-"Jump_In_Air": SubResource("Animation_wxxev"),
-"Jump_On_Floor": SubResource("Animation_imhc4"),
-"Landing": SubResource("Animation_r2qk5"),
-"Run": SubResource("Animation_phq6i"),
-"Walk": SubResource("Animation_3eftm"),
-"Wave": SubResource("Animation_6wsmi")
+"Crouch": SubResource("Animation_twl4y"),
+"Falling": SubResource("Animation_v20to"),
+"Idle": SubResource("Animation_guo3b"),
+"Interact": SubResource("Animation_wh3cw"),
+"Jump_In_Air": SubResource("Animation_fq2o3"),
+"Jump_On_Floor": SubResource("Animation_1sivc"),
+"Landing": SubResource("Animation_i6p5g"),
+"Run": SubResource("Animation_0f565"),
+"Walk": SubResource("Animation_4210a"),
+"Wave": SubResource("Animation_hleyk")
 }
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_agvam"]
@@ -2963,20 +2963,11 @@ spot_range = 0.36
 [node name="Thumb_L" parent="Radio_Boy_Model/Node/Root/Torso2/Arm_L2/Forearm_L2" index="1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.167224, -0.830749, -0.178321)
 
-[node name="Thumb_Tip_L2" parent="Radio_Boy_Model/Node/Root/Torso2/Arm_L2/Forearm_L2/Thumb_L" index="1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.015625, -0.078125, -0.140625)
-
 [node name="Finger_1_L" parent="Radio_Boy_Model/Node/Root/Torso2/Arm_L2/Forearm_L2" index="2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.104724, -0.972941, -0.106242)
 
-[node name="Finger_Tip1_L2" parent="Radio_Boy_Model/Node/Root/Torso2/Arm_L2/Forearm_L2/Finger_1_L" index="1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1875, -0.015625)
-
 [node name="Finger_2_L" parent="Radio_Boy_Model/Node/Root/Torso2/Arm_L2/Forearm_L2" index="3"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.104724, -1.00419, 0.0343828)
-
-[node name="Finger_Tip2_L2" parent="Radio_Boy_Model/Node/Root/Torso2/Arm_L2/Forearm_L2/Finger_2_L" index="1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1875, -0.015625)
 
 [node name="Finger_3_L" parent="Radio_Boy_Model/Node/Root/Torso2/Arm_L2/Forearm_L2" index="4"]
 transform = Transform3D(1, 0, 0, 0, 0.999999, 0, 0, 0, 1, -0.104724, -0.972941, 0.175008)
@@ -2998,26 +2989,14 @@ spot_range = 0.36
 [node name="Thumb_R" parent="Radio_Boy_Model/Node/Root/Torso2/Arm_R2/Forearm_R2" index="1"]
 transform = Transform3D(0.999998, 0, 0, 0, 1, 0, 0, 0, 0.999998, 0.167224, -0.830749, -0.178321)
 
-[node name="Thumb_Tip_R2" parent="Radio_Boy_Model/Node/Root/Torso2/Arm_R2/Forearm_R2/Thumb_R" index="1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.015625, -0.078125, -0.140625)
-
 [node name="Finger_1_R" parent="Radio_Boy_Model/Node/Root/Torso2/Arm_R2/Forearm_R2" index="2"]
 transform = Transform3D(0.999999, 0, 0, 0, 0.999999, 0, 0, 0, 1, 0.104724, -0.972941, -0.106242)
-
-[node name="Finger_Tip1_R2" parent="Radio_Boy_Model/Node/Root/Torso2/Arm_R2/Forearm_R2/Finger_1_R" index="1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1875, -0.015625)
 
 [node name="Finger_2_R" parent="Radio_Boy_Model/Node/Root/Torso2/Arm_R2/Forearm_R2" index="3"]
 transform = Transform3D(0.999998, 0, 0, 0, 1, 0, 0, 0, 1, 0.104724, -1.00419, 0.0343828)
 
-[node name="Finger_Tip2_R2" parent="Radio_Boy_Model/Node/Root/Torso2/Arm_R2/Forearm_R2/Finger_2_R" index="1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1875, -0.015625)
-
 [node name="Finger_3_R" parent="Radio_Boy_Model/Node/Root/Torso2/Arm_R2/Forearm_R2" index="4"]
 transform = Transform3D(1, 0, 0, 0, 0.999999, 0, 0, 0, 1, 0.104724, -0.972941, 0.175008)
-
-[node name="Finger_Tip3_R2" parent="Radio_Boy_Model/Node/Root/Torso2/Arm_R2/Forearm_R2/Finger_3_R" index="1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1875, -0.015625)
 
 [node name="Backpack2" parent="Radio_Boy_Model/Node/Root/Torso2" index="7"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.999999, 0.00148537, 0.777778, 0.286006)
@@ -3039,7 +3018,7 @@ transform = Transform3D(1, 0, 0, 0, 0.999998, 0, 0, 0, 0.999998, 0.0625, -1.0625
 
 [node name="AnimationTree" type="AnimationTree" parent="Radio_Boy_Model"]
 libraries = {
-"": SubResource("AnimationLibrary_uhvp0")
+"": SubResource("AnimationLibrary_uwyp0")
 }
 tree_root = SubResource("AnimationNodeStateMachine_27ej4")
 anim_player = NodePath("../AnimationPlayer")

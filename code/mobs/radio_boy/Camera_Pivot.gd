@@ -8,7 +8,7 @@ var camera_offset = transform.basis * Vector3(0, 7, 0) #our used vars are y and 
 var camera_recenter_character_speed = 10
 var camera_center_cursor_speed = 12
 var camera_aim_reach = 20  #(i think that it is higher) #You're right.... -Leon
-var camera_aim_reach_joystick = 10
+#var camera_aim_reach_joystick = 10
 
 #Outer Node Vars
 var rb_movement_state_previous
