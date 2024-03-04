@@ -44,6 +44,7 @@ func _physics_process(delta):
 	rb_player_is_active = 0  #This needs to be the first processed variable
 	animation_tree.set("parameters/conditions/IsFalling", false)
 	animation_tree.set("parameters/conditions/GoInIdle", false)
+	animation_tree.set("parameters/conditions/IsCrouching", false)
 
 	#-->Add gravity
 	if not is_on_floor():
@@ -77,9 +78,12 @@ func _physics_process(delta):
 		if is_on_floor():
 			rb_current_finite_state_machine_state = rb_movement_state
 
-			if is_on_wall():
+			if is_on_wall() and !rb_player_is_crouching:
 				animation_tree.set("parameters/conditions/GoInIdle", true)
 				rb_current_finite_state_machine_state = "Idle"
+			elif is_on_wall() and rb_player_is_crouching:
+				animation_tree.set("parameters/conditions/IsCrouching", true)
+				rb_current_finite_state_machine_state = "Crouch"
 
 	else:
 		velocity.z = move_toward(velocity.z, 0, rb_movement_speed) 
@@ -116,10 +120,11 @@ func _physics_process(delta):
 	#<--
 
 	#-->handle crouch
-	if Input.is_action_pressed("crouch") and is_on_floor():
+	if Input.is_action_pressed("crouch") and is_on_floor() and !Input.is_action_just_pressed("move_jump"):
 		rb_player_is_active = 1
 		rb_player_is_crouching = 1
 		rb_current_finite_state_machine_state = "Crouch"
+		animation_tree.set("parameters/conditions/IsCrouching", true)
 		$CollisionShape3D.scale.y = 0.5
 		$CollisionShape3D.position.y = 1.4
 
@@ -128,6 +133,12 @@ func _physics_process(delta):
 			$CollisionShape3D.scale.y = 1
 			$CollisionShape3D.position.y = 2.8
 	#<--
+
+	if rb_player_is_crouching and velocity.z:
+		rb_player_is_active = 1
+		rb_player_is_crouching = 1
+		rb_current_finite_state_machine_state = "Crouch_Walk"
+
 
 	state_machine.travel(rb_current_finite_state_machine_state)
 
