@@ -212,6 +212,16 @@ transform = Transform3D(-4.37114e-08, -3.69779e-32, -1, 0, 1, 0, 1, 0, -4.37114e
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 5.47845, 1.29026, -0.192405)
 shape = SubResource("BoxShape3D_vwlbu")
 
+[node name="Test_Platform16" type="StaticBody3D" parent="Platforms"]
+transform = Transform3D(0.579878, -0.814703, 5.34561e-07, 2.85575e-07, -4.5288e-07, -1, 0.814703, 0.579878, -2.99564e-08, 11.1044, -66.9738, -21.6887)
+
+[node name="Test_Platform" parent="Platforms/Test_Platform16" instance=ExtResource("3_g2tda")]
+transform = Transform3D(-4.37114e-08, -4.93038e-32, -1, 0, 1, 0, 1, 0, -4.37114e-08, 5.46826, 2, -2.48316)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platforms/Test_Platform16"]
+transform = Transform3D(-4.37114e-08, -4.93038e-32, -1, 0, 1, 0, 1, 0, -4.37114e-08, 5.47845, 1.29026, -2.47935)
+shape = SubResource("BoxShape3D_vwlbu")
+
 [node name="Wall" type="Node3D" parent="."]
 transform = Transform3D(1.91069e-15, -1.31134e-07, -1, -1, -1.31134e-07, 0, -4.37114e-08, 3, -4.37114e-08, -47.5, 7.5, -55)
 
