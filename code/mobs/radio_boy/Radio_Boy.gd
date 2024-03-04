@@ -107,9 +107,7 @@ func _physics_process(delta):
 		rb_queue_landing = 0
 
 	#-->Handle jump and falling
-	if Input.is_action_just_pressed("move_jump") \
-			and is_on_floor() \
-			and !rb_dont_allow_jump:
+	if Input.is_action_just_pressed("move_jump") and is_on_floor() and !rb_dont_allow_jump:
 		rb_player_is_active = 1
 		velocity.y = rb_movement_jump
 		rb_current_finite_state_machine_state = "Jump_On_Floor"
