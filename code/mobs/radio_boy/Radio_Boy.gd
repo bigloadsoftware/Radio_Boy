@@ -19,6 +19,7 @@ var rb_last_angle_faced : float = 360
 
 var rb_current_finite_state_machine_state = "Idle"
 var rb_player_is_active = 0
+var rb_dont_allow_jump = 0
 var rb_player_is_crouching = 0
 var rb_queue_idle = 0
 var rb_queue_landing = 0
@@ -54,9 +55,13 @@ func _physics_process(delta):
 	#<--
 
 	if rb_queue_idle and !rb_player_is_active:
-		rb_current_finite_state_machine_state = "Idle"
-		rb_player_is_crouching = 0
 		rb_queue_idle = 0
+
+		if rb_player_is_crouching:
+			rb_current_finite_state_machine_state = "Crouch"  #This is basically a crouch idle
+
+		else:
+			rb_current_finite_state_machine_state = "Idle"
 
 	#-->Handle directions
 	var input_dir = Input.get_vector("move_up", "move_down", "move_right", "move_left")
@@ -81,6 +86,7 @@ func _physics_process(delta):
 			if is_on_wall() and !rb_player_is_crouching:
 				animation_tree.set("parameters/conditions/GoInIdle", true)
 				rb_current_finite_state_machine_state = "Idle"
+
 			elif is_on_wall() and rb_player_is_crouching:
 				animation_tree.set("parameters/conditions/IsCrouching", true)
 				rb_current_finite_state_machine_state = "Crouch"
@@ -101,7 +107,9 @@ func _physics_process(delta):
 		rb_queue_landing = 0
 
 	#-->Handle jump and falling
-	if Input.is_action_just_pressed("move_jump") and is_on_floor() and !rb_player_is_crouching:
+	if Input.is_action_just_pressed("move_jump") \
+			and is_on_floor() \
+			and !rb_dont_allow_jump:
 		rb_player_is_active = 1
 		velocity.y = rb_movement_jump
 		rb_current_finite_state_machine_state = "Jump_On_Floor"
@@ -120,25 +128,17 @@ func _physics_process(delta):
 	#<--
 
 	#-->handle crouch
-	if Input.is_action_pressed("crouch") and is_on_floor() and !Input.is_action_just_pressed("move_jump"):
+	if Input.is_action_pressed("crouch") and !rb_player_is_crouching and is_on_floor():
+		rb_dont_allow_jump = 1
 		rb_player_is_active = 1
-		rb_player_is_crouching = 1
 		rb_current_finite_state_machine_state = "Crouch"
 		animation_tree.set("parameters/conditions/IsCrouching", true)
-		$CollisionShape3D.scale.y = 0.5
-		$CollisionShape3D.position.y = 1.4
+		Handle_Movement("Crouch")
 
-	elif Input.is_action_just_released("crouch"):
-			rb_queue_idle = 1
-			$CollisionShape3D.scale.y = 1
-			$CollisionShape3D.position.y = 2.8
-	#<--
-
-	if rb_player_is_crouching and velocity.z:
-		rb_player_is_active = 1
-		rb_player_is_crouching = 1
-		rb_current_finite_state_machine_state = "Crouch_Walk"
-
+	if Input.is_action_just_released("crouch") and rb_player_is_crouching:
+		rb_dont_allow_jump = 0
+		rb_queue_idle = 1
+		Handle_Movement("Crouchn't")
 
 	state_machine.travel(rb_current_finite_state_machine_state)
 
@@ -179,13 +179,23 @@ func Handle_Movement(state = "Toggle", memorize_last_movement = 0):
 			rb_movement_speed = SPEED_RUN
 			rb_movement_jump = JUMP_VELOCITY_RUN
 
-	elif state == "Crouch":
+	elif state == "Crouch" and rb_movement_state != "Crouch":
+		rb_dont_allow_jump = 1
+		rb_player_is_crouching = 1
+		rb_movement_state_previous = rb_movement_state
+		rb_movement_speed_previous = rb_movement_speed
+		rb_movement_state = "Crouch_Walk"
 		rb_movement_speed = SPEED_CROUCH
-		rb_movement_jump = JUMP_VELOCITY_CROUCH
+		$CollisionShape3D.scale.y = 0.5
+		$CollisionShape3D.position.y = 1.4
 
 	elif state == "Crouchn't":
-		rb_movement_speed = SPEED_CROUCH
-		rb_movement_jump = JUMP_VELOCITY_CROUCH
+		rb_dont_allow_jump = 0
+		rb_player_is_crouching = 0
+		rb_movement_state = rb_movement_state_previous
+		rb_movement_speed = rb_movement_speed_previous
+		$CollisionShape3D.scale.y = 1
+		$CollisionShape3D.position.y = 2.8
 
 	elif state == "Walk":
 		rb_movement_speed = SPEED_WALK
