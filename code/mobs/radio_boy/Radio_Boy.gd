@@ -7,7 +7,7 @@ const SPEED_CROUCH = 4
 const SPEED_WALK = 7.5
 const SPEED_RUN = 20
 const TIME_TURN_WALK = 0.06
-const JUMP_VELOCITY_CROUCH = 39  #Questa non dovrebbe esistere, non deve saltare se in crouch
+#const JUMP_VELOCITY_CROUCH = 39  #Questa non dovrebbe esistere, non deve saltare se in crouch #Faccio cio che L'Alessio comanda -Leon
 const JUMP_VELOCITY_WALK = 39 #28
 const JUMP_VELOCITY_RUN = 39
 
@@ -19,9 +19,10 @@ var rb_last_angle_faced : float = 360
 
 var rb_current_finite_state_machine_state = "Idle"
 var rb_player_is_active = 0
-var rb_player_is_crouching = 0
 var rb_queue_idle = 0
 var rb_queue_landing = 0
+var rb_dont_allow_jump = 0
+var rb_force_crouch = 0
 var rb_movement_state = "Run"
 var rb_movement_speed = SPEED_RUN
 var rb_movement_jump = JUMP_VELOCITY_RUN
@@ -54,7 +55,6 @@ func _physics_process(delta):
 
 	if rb_queue_idle and !rb_player_is_active:
 		rb_current_finite_state_machine_state = "Idle"
-		rb_player_is_crouching = 0
 		rb_queue_idle = 0
 
 	#-->Handle directions
@@ -97,7 +97,9 @@ func _physics_process(delta):
 		rb_queue_landing = 0
 
 	#-->Handle jump and falling
-	if Input.is_action_just_pressed("move_jump") and is_on_floor() and !rb_player_is_crouching:
+	if Input.is_action_just_pressed("move_jump") \
+			and is_on_floor() \
+			and !rb_dont_allow_jump:
 		rb_player_is_active = 1
 		velocity.y = rb_movement_jump
 		rb_current_finite_state_machine_state = "Jump_On_Floor"
@@ -118,15 +120,13 @@ func _physics_process(delta):
 	#-->handle crouch
 	if Input.is_action_pressed("crouch") and is_on_floor():
 		rb_player_is_active = 1
-		rb_player_is_crouching = 1
 		rb_current_finite_state_machine_state = "Crouch"
-		$CollisionShape3D.scale.y = 0.5
-		$CollisionShape3D.position.y = 1.4
+		Handle_Movement("Crouch")
 
 	elif Input.is_action_just_released("crouch"):
-			rb_queue_idle = 1
-			$CollisionShape3D.scale.y = 1
-			$CollisionShape3D.position.y = 2.8
+		rb_player_is_active = 1
+		rb_queue_idle = 1
+		Handle_Movement("Crouchn't")
 	#<--
 
 	state_machine.travel(rb_current_finite_state_machine_state)
@@ -139,14 +139,6 @@ func _physics_process(delta):
 ###############################################################
 #					 Character Functions					  #
 ###############################################################
-
-
-#-->Bit_Trigger_Timer()
-func Bit_Trigger_Timer(timer):
-	await get_tree().create_timer(timer).timeout
-	print ("AAAAAAAAAAAAAAAAAAAAARGH!!!")
-	rb_queue_landing = 0
-#<--
 
 
 #-->Handle_Movement()
@@ -168,19 +160,30 @@ func Handle_Movement(state = "Toggle", memorize_last_movement = 0):
 			rb_movement_speed = SPEED_RUN
 			rb_movement_jump = JUMP_VELOCITY_RUN
 
-	elif state == "Crouch":
+	elif state == "Crouch" and rb_movement_state != "Crouch":
+		rb_dont_allow_jump = 1
+		rb_movement_state_previous = rb_movement_state
+		rb_movement_speed_previous = rb_movement_speed
+		rb_movement_jump_previous = rb_movement_jump
+		rb_movement_state = "Crouch"
 		rb_movement_speed = SPEED_CROUCH
-		rb_movement_jump = JUMP_VELOCITY_CROUCH
+		$CollisionShape3D.scale.y = 0.5
+		$CollisionShape3D.position.y = 1.4
 
 	elif state == "Crouchn't":
-		rb_movement_speed = SPEED_CROUCH
-		rb_movement_jump = JUMP_VELOCITY_CROUCH
+		rb_dont_allow_jump = 0
+		rb_movement_state = rb_movement_state_previous
+		rb_movement_speed = rb_movement_speed_previous
+		$CollisionShape3D.scale.y = 1
+		$CollisionShape3D.position.y = 2.8
 
 	elif state == "Walk":
+		rb_movement_state = "Walk"
 		rb_movement_speed = SPEED_WALK
 		rb_movement_jump = JUMP_VELOCITY_WALK
 
 	elif state == "Run":
+		rb_movement_state = "Run"
 		rb_movement_speed = SPEED_RUN
 		rb_movement_jump = JUMP_VELOCITY_RUN
 
@@ -233,34 +236,4 @@ func Smooth_Turn(angle_to_reach, time_taken):
 		$Radio_Boy_Model.rotation.y = deg_to_rad(angle_to_reach)
 		rb_angle_is_changing = 0
 		return
-#<--
-
-
-#-->Move_Camera()
-#To do list:
-#-Fucking everything, this one is a mess
-func Move_Camera(direction, time_taken_to_move, offset_to_fill):
-	var camera_position
-	var camera_steps = offset_to_fill * 0.1
-	var camera_step_time = time_taken_to_move * 0.01
-
-	if direction == "Right":
-		if camera_position != direction:
-			camera_position = "Right"
-			while offset_to_fill >= (abs($Camera3D.position.z - $Radio_Boy_Model.position.z)):
-				$Camera3D.position.z -= camera_steps
-				await get_tree().create_timer(camera_step_time).timeout
-				print(camera_step_time)
-			$Camera3D.position.z = -offset_to_fill
-			return
-
-	if direction == "Left":
-		if camera_position != direction:
-			camera_position = "Left"
-			while offset_to_fill >= (abs($Camera3D.position.z - $Radio_Boy_Model.position.z)):
-				$Camera3D.position.z += camera_steps
-				await get_tree().create_timer(camera_step_time).timeout
-				print(camera_step_time)
-			$Camera3D.position.z = +offset_to_fill
-			return
 #<--
