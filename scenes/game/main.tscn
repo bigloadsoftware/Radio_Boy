@@ -1,8 +1,18 @@
-[gd_scene load_steps=6 format=3 uid="uid://dhc2pppvyu3vx"]
+[gd_scene load_steps=7 format=3 uid="uid://dhc2pppvyu3vx"]
 
 [ext_resource type="PackedScene" uid="uid://dhmq5y0dacrgx" path="res://scenes/mobs/radio_boy/Radio_Boy.tscn" id="1_fbjts"]
 [ext_resource type="PackedScene" uid="uid://cg886ulmx7fe1" path="res://models/test/Ground.gltf" id="2_tpm5u"]
 [ext_resource type="PackedScene" uid="uid://c7xereedbecpd" path="res://models/test/Test_Platform.gltf" id="3_g2tda"]
+
+[sub_resource type="Environment" id="Environment_xp2vy"]
+background_energy_multiplier = 0.5
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_energy = 0.0
+tonemap_white = 1.97
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.02
+volumetric_fog_emission = Color(0.294118, 0.294118, 0.294118, 1)
+volumetric_fog_temporal_reprojection_enabled = false
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_b2x1v"]
 size = Vector3(0.858272, 0.413708, 15.4066)
@@ -11,6 +21,9 @@ size = Vector3(0.858272, 0.413708, 15.4066)
 size = Vector3(9.04291, 1.48828, 5.95251)
 
 [node name="Main" type="Node"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_xp2vy")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.522393, 0.797584, 0.301604, -0.5, -3.67569e-08, 0.866025, 0.690728, -0.603208, 0.398792, 12, 25, -2.28694)
