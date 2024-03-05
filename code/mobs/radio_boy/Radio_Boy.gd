@@ -53,6 +53,11 @@ func _physics_process(delta):
 		rb_queue_idle = 1
 		velocity.y -= gravity * delta
 	#<--
+	
+	$GPUParticles3D.emitting = false
+
+	if is_on_floor() and velocity.z:
+		$GPUParticles3D.emitting = true
 
 	if rb_queue_idle and !rb_player_is_active:
 		rb_queue_idle = 0
