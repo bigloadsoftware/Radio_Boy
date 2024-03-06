@@ -6,6 +6,10 @@ var animation_tree
 const SPEED_CROUCH = 4
 const SPEED_WALK = 7.5
 const SPEED_RUN = 20
+const ACCELERATION_CROUCH : float = 0.07
+const ACCELERATION_WALK : float = 0.07
+const ACCELERATION_RUN : float = 0.1
+const ACCELERATION_JUMP : float = 0.03
 const TIME_TURN_WALK = 0.06
 const JUMP_VELOCITY_CROUCH = 39  #Questa non dovrebbe esistere, non deve saltare se in crouch
 const JUMP_VELOCITY_WALK = 39 #28
@@ -21,14 +25,17 @@ var rb_current_finite_state_machine_state = "Idle"
 var rb_player_is_active = 0
 var rb_dont_allow_jump = 0
 var rb_player_is_crouching = 0
+var rb_player_is_in_air = 0
 var rb_queue_idle = 0
 var rb_queue_landing = 0
 var rb_movement_state = "Run"
 var rb_movement_speed = SPEED_RUN
+var rb_movement_acceleration = ACCELERATION_RUN
 var rb_movement_jump = JUMP_VELOCITY_RUN
 
 var rb_movement_state_previous = "Run"
 var rb_movement_speed_previous = SPEED_RUN
+var rb_movement_acceleration_previous = ACCELERATION_RUN
 var rb_movement_jump_previous = JUMP_VELOCITY_RUN
 
 #Get the gravity from the project settings to be synced with RigidBody nodes.
@@ -68,14 +75,40 @@ func _physics_process(delta):
 		else:
 			rb_current_finite_state_machine_state = "Idle"
 
+	#-->Handle accleration
+	if is_on_floor() and rb_movement_state == "Run":
+		rb_movement_acceleration = ACCELERATION_RUN
+
+	elif is_on_floor() and rb_movement_state == "Walk":
+		rb_movement_acceleration = ACCELERATION_WALK
+
+	elif is_on_floor() and rb_player_is_crouching:
+		rb_movement_acceleration = ACCELERATION_CROUCH
+
+	if !is_on_floor() and !rb_player_is_in_air:
+		rb_player_is_in_air = 1
+		rb_movement_acceleration_previous = rb_movement_acceleration
+		rb_movement_acceleration = ACCELERATION_JUMP
+
+	if is_on_floor() and rb_player_is_in_air:
+		rb_player_is_in_air = 0
+		rb_movement_acceleration = rb_movement_acceleration_previous
+	
+	#<--
+
 	#-->Handle directions
 	var input_dir = Input.get_vector("move_up", "move_down", "move_right", "move_left")
 	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 
+	if abs(velocity.z) > abs(direction.z * rb_movement_speed):
+		velocity.z = direction.z * rb_movement_speed - 0.1  #This - 0.1 is needed because computers are weird and process numbers in weird ways
+
 	if direction:  #Handle directions (which are only two...)
 		rb_player_is_active = 1
 		rb_queue_idle = 1
-		velocity.z = direction.z * rb_movement_speed
+
+		if abs(velocity.z) < abs(direction.z * rb_movement_speed):
+			velocity.z += direction.z * rb_movement_speed * rb_movement_acceleration
 
 		if direction.z < 0:  #We are moving Right
 			rb_last_direction_faced = "Right"
@@ -97,7 +130,7 @@ func _physics_process(delta):
 				rb_current_finite_state_machine_state = "Crouch"
 
 	else:
-		velocity.z = move_toward(velocity.z, 0, rb_movement_speed) 
+		velocity.z = move_toward(velocity.z, 0, delta) 
 
 		if rb_last_direction_faced == "Right":
 			Smooth_Turn(-25, TIME_TURN_WALK)
@@ -125,7 +158,7 @@ func _physics_process(delta):
 	#<--
 
 	#-->Handle walk/run toggle.
-	if Input.is_action_just_pressed("toggle_walk_or_run"): 
+	if Input.is_action_just_pressed("toggle_walk_or_run") and is_on_floor(): 
 		rb_player_is_active = 1
 		Handle_Movement()
 	#<--
@@ -146,7 +179,6 @@ func _physics_process(delta):
 	state_machine.travel(rb_current_finite_state_machine_state)
 
 	move_and_slide()
-
 
 
 
@@ -288,3 +320,6 @@ func Move_Camera(direction, time_taken_to_move, offset_to_fill):
 			$Camera3D.position.z = +offset_to_fill
 			return
 #<--
+
+
+
