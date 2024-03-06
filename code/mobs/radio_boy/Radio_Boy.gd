@@ -103,6 +103,9 @@ func _physics_process(delta):
 	if abs(velocity.z) > abs(direction.z * rb_movement_speed):
 		velocity.z = direction.z * rb_movement_speed - 0.1  #This - 0.1 is needed because computers are weird and process numbers in weird ways
 
+	if abs(velocity.z) < 0.2: #We'll have to sanitize all of this stuff....
+		velocity.z = 0
+
 	if direction:  #Handle directions (which are only two...)
 		rb_player_is_active = 1
 		rb_queue_idle = 1
@@ -171,10 +174,11 @@ func _physics_process(delta):
 		animation_tree.set("parameters/conditions/IsCrouching", true)
 		Handle_Movement("Crouch")
 
-	if Input.is_action_just_released("crouch") and rb_player_is_crouching:
+	elif rb_player_is_crouching and !$Proximity_Sensor_Cealing.is_on_floor_only():
 		rb_dont_allow_jump = 0
 		rb_queue_idle = 1
 		Handle_Movement("Crouchn't")
+
 
 	state_machine.travel(rb_current_finite_state_machine_state)
 
