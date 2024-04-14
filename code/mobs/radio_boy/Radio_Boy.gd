@@ -174,11 +174,10 @@ func _physics_process(delta):
 		animation_tree.set("parameters/conditions/IsCrouching", true)
 		Handle_Movement("Crouch")
 
-	elif rb_player_is_crouching and !$Proximity_Sensor_Cealing.is_on_floor_only():
+	elif rb_player_is_crouching and !$Proximity_Sensor_Cealing.is_on_floor_only() and is_on_floor() and !Input.is_action_pressed("crouch"):
 		rb_dont_allow_jump = 0
 		rb_queue_idle = 1
 		Handle_Movement("Crouchn't")
-
 
 	state_machine.travel(rb_current_finite_state_machine_state)
 
