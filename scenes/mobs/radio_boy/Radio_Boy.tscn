@@ -1,9 +1,12 @@
-[gd_scene load_steps=62 format=3 uid="uid://dhmq5y0dacrgx"]
+[gd_scene load_steps=70 format=3 uid="uid://dhmq5y0dacrgx"]
 
 [ext_resource type="Script" path="res://code/mobs/radio_boy/Radio_Boy.gd" id="1_4ga08"]
 [ext_resource type="PackedScene" uid="uid://8tkljkjvtd71" path="res://models/mobs/radio_boy/Radio_Boy.gltf" id="2_74wy5"]
 [ext_resource type="Script" path="res://code/mobs/radio_boy/Camera_Pivot.gd" id="3_amske"]
 [ext_resource type="Script" path="res://code/mobs/radio_boy/Proximity_Sensor_Cealing.gd" id="3_x44kx"]
+[ext_resource type="Curve" uid="uid://8npkoemjitcm" path="res://scenes/mobs/radio_boy/jump_1.tres" id="4_frykj"]
+[ext_resource type="Curve" uid="uid://7wooko3pjki1" path="res://scenes/mobs/radio_boy/jump_2.tres" id="5_b5lxm"]
+[ext_resource type="Curve" uid="uid://bo8llmy7smq0b" path="res://scenes/mobs/radio_boy/jump_3.tres" id="6_ek46h"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_k3v7m"]
 size = Vector3(1, 5.63934, 2)
@@ -3098,23 +3101,15 @@ animation = &"Jump_In_Air"
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_f3nrc"]
 animation = &"Jump_On_Floor"
 
-[sub_resource type="Curve" id="Curve_ruuos"]
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
-point_count = 2
-
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_hkrgl"]
 xfade_time = 0.5
-xfade_curve = SubResource("Curve_ruuos")
+xfade_curve = ExtResource("4_frykj")
 switch_mode = 2
 advance_mode = 2
 
-[sub_resource type="Curve" id="Curve_ndc4e"]
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
-point_count = 2
-
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_po06r"]
 xfade_time = 0.3
-xfade_curve = SubResource("Curve_ndc4e")
+xfade_curve = ExtResource("5_b5lxm")
 advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_hfv2i"]
@@ -3122,14 +3117,46 @@ advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_aj02s"]
 states/Falling/node = SubResource("AnimationNodeAnimation_f8hja")
-states/Falling/position = Vector2(631, 100)
+states/Falling/position = Vector2(638, 100)
 states/Jump_In_Air/node = SubResource("AnimationNodeAnimation_q2on2")
 states/Jump_In_Air/position = Vector2(484, 100)
 states/Jump_On_Floor/node = SubResource("AnimationNodeAnimation_f3nrc")
-states/Jump_On_Floor/position = Vector2(326, 100)
+states/Jump_On_Floor/position = Vector2(325, 100)
 states/Start/position = Vector2(201, 100)
 transitions = ["Jump_On_Floor", "Jump_In_Air", SubResource("AnimationNodeStateMachineTransition_hkrgl"), "Jump_In_Air", "Falling", SubResource("AnimationNodeStateMachineTransition_po06r"), "Start", "Jump_On_Floor", SubResource("AnimationNodeStateMachineTransition_hfv2i")]
-graph_offset = Vector2(-35, -7)
+graph_offset = Vector2(-69, 47)
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_plcqt"]
+animation = &"Falling"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ed3ag"]
+animation = &"Jump_In_Air"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ud1cl"]
+animation = &"Jump_On_Floor"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_wic15"]
+xfade_time = 0.5
+xfade_curve = ExtResource("4_frykj")
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_son0y"]
+xfade_time = 0.3
+xfade_curve = ExtResource("5_b5lxm")
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_5syla"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_3je4o"]
+states/Falling/node = SubResource("AnimationNodeAnimation_plcqt")
+states/Falling/position = Vector2(688, 100)
+states/Jump_In_Air/node = SubResource("AnimationNodeAnimation_ed3ag")
+states/Jump_In_Air/position = Vector2(524, 100)
+states/Jump_On_Floor/node = SubResource("AnimationNodeAnimation_ud1cl")
+states/Jump_On_Floor/position = Vector2(356, 100)
+transitions = ["Jump_On_Floor", "Jump_In_Air", SubResource("AnimationNodeStateMachineTransition_wic15"), "Jump_In_Air", "Falling", SubResource("AnimationNodeStateMachineTransition_son0y"), "Start", "Jump_On_Floor", SubResource("AnimationNodeStateMachineTransition_5syla")]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_j1bl8"]
 animation = &"Idle"
@@ -3173,13 +3200,9 @@ states/Walk/node = SubResource("AnimationNodeAnimation_2yjx5")
 states/Walk/position = Vector2(348, 100)
 transitions = ["Start", "Walk", SubResource("AnimationNodeStateMachineTransition_sw2hc")]
 
-[sub_resource type="Curve" id="Curve_e55lr"]
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
-point_count = 2
-
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_4fvnk"]
 xfade_time = 0.2
-xfade_curve = SubResource("Curve_e55lr")
+xfade_curve = ExtResource("6_ek46h")
 switch_mode = 2
 advance_mode = 2
 advance_condition = &"IsFalling"
@@ -3237,6 +3260,13 @@ xfade_curve = SubResource("Curve_6hhic")
 advance_mode = 2
 advance_condition = &"IsCrouching"
 
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_m8aqr"]
+xfade_time = 0.2
+xfade_curve = ExtResource("6_ek46h")
+switch_mode = 2
+advance_mode = 2
+advance_condition = &"IsFalling"
+
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_27ej4"]
 states/Crouch/node = SubResource("AnimationNodeAnimation_agvam")
 states/Crouch/position = Vector2(357, 167)
@@ -3248,6 +3278,8 @@ states/Idle/node = SubResource("AnimationNodeAnimation_2jvse")
 states/Idle/position = Vector2(357, 100)
 states/Jump_On_Floor/node = SubResource("AnimationNodeStateMachine_aj02s")
 states/Jump_On_Floor/position = Vector2(357, 220)
+states/Jump_Stage_2/node = SubResource("AnimationNodeStateMachine_3je4o")
+states/Jump_Stage_2/position = Vector2(357, 303)
 states/Landing/node = SubResource("AnimationNodeStateMachine_6q6np")
 states/Landing/position = Vector2(617, 220)
 states/Run/node = SubResource("AnimationNodeStateMachine_xv3oi")
@@ -3255,8 +3287,8 @@ states/Run/position = Vector2(497, 100)
 states/Start/position = Vector2(202, 100)
 states/Walk/node = SubResource("AnimationNodeStateMachine_525my")
 states/Walk/position = Vector2(497, 160)
-transitions = ["Jump_On_Floor", "Falling", SubResource("AnimationNodeStateMachineTransition_4fvnk"), "Start", "Idle", SubResource("AnimationNodeStateMachineTransition_3lgw7"), "Run", "Idle", SubResource("AnimationNodeStateMachineTransition_nadrd"), "Walk", "Idle", SubResource("AnimationNodeStateMachineTransition_3tfff"), "Idle", "Crouch", SubResource("AnimationNodeStateMachineTransition_nj16o"), "Crouch", "Idle", SubResource("AnimationNodeStateMachineTransition_gwtki"), "Crouch_Walk", "Crouch", SubResource("AnimationNodeStateMachineTransition_7ejff")]
-graph_offset = Vector2(-156, 40)
+transitions = ["Jump_On_Floor", "Falling", SubResource("AnimationNodeStateMachineTransition_4fvnk"), "Start", "Idle", SubResource("AnimationNodeStateMachineTransition_3lgw7"), "Run", "Idle", SubResource("AnimationNodeStateMachineTransition_nadrd"), "Walk", "Idle", SubResource("AnimationNodeStateMachineTransition_3tfff"), "Idle", "Crouch", SubResource("AnimationNodeStateMachineTransition_nj16o"), "Crouch", "Idle", SubResource("AnimationNodeStateMachineTransition_gwtki"), "Crouch_Walk", "Crouch", SubResource("AnimationNodeStateMachineTransition_7ejff"), "Jump_Stage_2", "Falling", SubResource("AnimationNodeStateMachineTransition_m8aqr")]
+graph_offset = Vector2(-103, 103)
 
 [sub_resource type="Curve" id="Curve_xog7b"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.727811, 0.626374), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -3314,16 +3346,16 @@ script = ExtResource("3_amske")
 [node name="Radio_Boy_Model" parent="." instance=ExtResource("2_74wy5")]
 
 [node name="Torso2" parent="Radio_Boy_Model/Node/Root" index="0"]
-transform = Transform3D(0.997304, 0, -0.0733691, 0, 1, 0, 0.0733691, 0, 0.997304, 0, -0.377696, 0)
+transform = Transform3D(0.999999, 0, 0, 0, 0.915285, 0.402807, 0, -0.402808, 0.915284, 0, -0.3125, 0)
 
 [node name="Head2" parent="Radio_Boy_Model/Node/Root/Torso2/Neck2" index="1"]
-transform = Transform3D(1, 0, 0, 0, 0.996195, 0.0871558, 0, -0.0871558, 0.996195, 0, 0.3741, 0.03125)
+transform = Transform3D(1, 0, 0, 0, 0.974959, 0.222385, 0, -0.222385, 0.974959, 0, 0.375, 0.03125)
 
 [node name="Ant_L2" parent="Radio_Boy_Model/Node/Root/Torso2/Neck2/Head2" index="4"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.316617, 0.698565, 0.403713)
+transform = Transform3D(0.989474, -0.144567, -0.00649796, 0.128448, 0.898057, -0.420708, 0.066656, 0.415445, 0.907173, -0.316617, 0.698565, 0.403713)
 
 [node name="Ant_R2" parent="Radio_Boy_Model/Node/Root/Torso2/Neck2/Head2" index="5"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.316617, 0.698565, 0.403713)
+transform = Transform3D(0.989516, 0.144362, 0.00432421, -0.137135, 0.948529, -0.28546, -0.0453112, 0.281874, 0.958381, 0.316617, 0.698565, 0.403713)
 
 [node name="SpotLight3D" type="SpotLight3D" parent="Radio_Boy_Model/Node/Root/Torso2/Neck2/Head2" index="6"]
 transform = Transform3D(1, 4.65661e-10, -7.45058e-09, 0, -1, 6.70552e-08, -7.45058e-09, -8.9407e-08, -1, -9.31323e-10, 0.5, -0.85)
@@ -3343,10 +3375,10 @@ spot_range = 5.68828
 spot_angle = 37.0975
 
 [node name="Arm_L2" parent="Radio_Boy_Model/Node/Root/Torso2" index="5"]
-transform = Transform3D(1, 0, 0, 0, 0.938252, -0.345946, 0, 0.345947, 0.938251, -0.749644, 0.734156, 0.0129776)
+transform = Transform3D(0.864344, 0.454029, -0.216255, -0.498108, 0.83214, -0.24378, 0.0692715, 0.318429, 0.945409, -0.874644, 0.671656, 0.0129776)
 
 [node name="Forearm_L2" parent="Radio_Boy_Model/Node/Root/Torso2/Arm_L2" index="0"]
-transform = Transform3D(0.999999, 0, 0, 0, 0.974139, -0.225956, 0, 0.225956, 0.974138, -0.332776, -0.99569, 0.100652)
+transform = Transform3D(0.843391, 0.518489, 0.14093, -0.183767, 0.524833, -0.831132, -0.504896, 0.675072, 0.537921, -0.332776, -0.99569, 0.100652)
 
 [node name="Thumb_L" parent="Radio_Boy_Model/Node/Root/Torso2/Arm_L2/Forearm_L2" index="0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.167224, -0.830749, -0.178321)
@@ -3364,10 +3396,10 @@ transform = Transform3D(1, 0, 0, 0, 0.984807, 0.173648, 0, -0.173648, 0.984808, 
 transform = Transform3D(0.999998, 0, 0, 0, 0.999998, 0, 0, 0, 1, 0, -0.1875, -0.015625)
 
 [node name="Arm_R2" parent="Radio_Boy_Model/Node/Root/Torso2" index="6"]
-transform = Transform3D(1, 0, 0, 0, 0.991957, 0.126564, 0, -0.126564, 0.991958, 0.749644, 0.734156, 0.0129776)
+transform = Transform3D(0.864344, -0.454029, -0.216256, 0.498108, 0.83214, 0.243781, 0.0692715, -0.318429, 0.945412, 0.874644, 0.671656, 0.0129776)
 
 [node name="Forearm_R2" parent="Radio_Boy_Model/Node/Root/Torso2/Arm_R2" index="0"]
-transform = Transform3D(1, 0, 0, 0, 0.988028, -0.154283, 0, 0.154284, 0.988025, 0.332776, -0.99569, 0.100652)
+transform = Transform3D(0.843391, -0.495284, -0.208292, 0.183767, 0.630186, -0.754383, 0.504897, 0.597965, 0.622509, 0.332776, -0.99569, 0.100652)
 
 [node name="Thumb_R" parent="Radio_Boy_Model/Node/Root/Torso2/Arm_R2/Forearm_R2" index="0"]
 transform = Transform3D(0.999999, 0, 0, 0, 1, 0, 0, 0, 0.999999, 0.167224, -0.830749, -0.178321)
@@ -3382,22 +3414,22 @@ transform = Transform3D(0.999998, 0, 0, 0, 0.996195, 0.0871558, 0, -0.0871558, 0
 transform = Transform3D(1, 0, 0, 0, 0.984807, 0.173648, 0, -0.173648, 0.984808, 0.104724, -0.972941, 0.175008)
 
 [node name="Backpack2" parent="Radio_Boy_Model/Node/Root/Torso2" index="7"]
-transform = Transform3D(0.993325, 0.115351, 0, -0.115351, 0.993325, 0, 0, 0, 0.999999, 0.00148537, 0.777778, 0.286006)
+transform = Transform3D(1, 0, 0, 0, 0.969984, 0.243171, 0, -0.243171, 0.969982, 0.00148537, 0.777778, 0.286006)
 
 [node name="Hips2" parent="Radio_Boy_Model/Node/Root" index="1"]
-transform = Transform3D(0.998862, 0, 0.0476841, 0, 1, 0, -0.0476841, 0, 0.998862, 0, -0.648223, -0.09375)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.578125, -0.09375)
 
 [node name="Leg_L2" parent="Radio_Boy_Model/Node/Root/Hips2" index="2"]
-transform = Transform3D(1, 0, 0, 0, 0.998186, -0.0601938, 0, 0.0601938, 0.998186, -0.499644, -0.0706501, -0.0307153)
+transform = Transform3D(1, 0, 0, 0, 0.740197, -0.672388, 0, 0.672388, 0.740197, -0.499644, -0.0706501, -0.0307153)
 
 [node name="Stilt_L2" parent="Radio_Boy_Model/Node/Root/Hips2/Leg_L2" index="1"]
-transform = Transform3D(1, 0, 0, 0, 0.991038, 0.133578, 0, -0.133578, 0.991038, -0.0625, -1.0625, -0.0625)
+transform = Transform3D(1, 0, 0, 0, 0.481722, 0.876324, 0, -0.876324, 0.481722, -0.0625, -1.0625, -0.0625)
 
 [node name="Leg_R2" parent="Radio_Boy_Model/Node/Root/Hips2" index="3"]
-transform = Transform3D(1, 0, 0, 0, 0.998187, -0.0601938, 0, 0.0601938, 0.998187, 0.499644, -0.0706501, -0.0307153)
+transform = Transform3D(1, 0, 0, 0, 0.782897, -0.622152, 0, 0.622152, 0.782897, 0.499644, -0.0706501, -0.0307153)
 
 [node name="Stilt_R2" parent="Radio_Boy_Model/Node/Root/Hips2/Leg_R2" index="1"]
-transform = Transform3D(1, 0, 0, 0, 0.991037, 0.133578, 0, -0.133578, 0.991037, 0.0625, -1.0625, -0.0625)
+transform = Transform3D(1, 0, 0, 0, 0.242371, 0.970182, 0, -0.970182, 0.242371, 0.0625, -1.0625, -0.0625)
 
 [node name="Stilt_R" parent="Radio_Boy_Model/Node/Root/Hips2/Leg_R2/Stilt_R2" index="0"]
 transform = Transform3D(0.0051022, 0.999882, 0.0145801, -0.996366, 0.00384343, 0.0850954, 0.0850291, -0.0149611, 0.996268, -0.0272293, 0.0500715, 0.0564787)
