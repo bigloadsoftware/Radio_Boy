@@ -55,6 +55,19 @@ func _physics_process(delta):
 	animation_tree.set("parameters/conditions/GoInIdle", false)
 	animation_tree.set("parameters/conditions/IsCrouching", false)
 
+	if rb_last_direction_faced == "Right":
+		if($RayCast3D_RL.is_colliding() and !$RayCast3D_RH.is_colliding()):
+			$CollisionShape3D.disabled = true
+			position.y += 0.5
+			position.z -= 0.8
+	
+	else:
+		if($RayCast3D_LL.is_colliding() and !$RayCast3D_LH.is_colliding()):
+			$CollisionShape3D.disabled = true
+			position.y += 0.5
+			position.z += 0.8
+
+
 	#-->Add gravity
 	if not is_on_floor():
 		rb_player_is_active = 1
@@ -183,12 +196,22 @@ func _physics_process(delta):
 		animation_tree.set("parameters/conditions/IsCrouching", true)
 		Handle_Movement("Crouch")
 
-	elif rb_player_is_crouching and !$Proximity_Sensor_Cealing.is_on_floor_only() and !Input.is_action_pressed("crouch"):
+	elif rb_player_is_crouching and !$RayCast3D_Ceiling.is_colliding() and !Input.is_action_pressed("crouch"):
 		rb_dont_allow_jump = 0
 		rb_queue_idle = 1
 		Handle_Movement("Crouchn't")
 
+
+			
+	$CollisionShape3D.disabled = false
+	
+
+		
+
+
 	state_machine.travel(rb_current_finite_state_machine_state)
+	
+
 
 	move_and_slide()
 
