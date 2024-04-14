@@ -89,6 +89,7 @@ func _physics_process(delta):
 		else:
 			rb_current_finite_state_machine_state = "Idle"
 
+
 	#-->Handle accleration
 	if is_on_floor() and rb_movement_state == "Run":
 		rb_movement_acceleration = ACCELERATION_RUN
@@ -107,8 +108,8 @@ func _physics_process(delta):
 	if is_on_floor() and rb_player_is_in_air:
 		rb_player_is_in_air = 0
 		rb_movement_acceleration = rb_movement_acceleration_previous
-	
 	#<--
+
 
 	#-->Handle directions
 	var input_dir = Input.get_vector("move_up", "move_down", "move_right", "move_left")
@@ -156,18 +157,17 @@ func _physics_process(delta):
 			Smooth_Turn(205, TIME_TURN_WALK)
 	#<--
 
+	#-->Handle jump and falling
 	if is_on_floor() and rb_queue_landing:
 		rb_player_is_active = 1
 		rb_current_finite_state_machine_state = "Landing"
 		rb_queue_landing = 0
 
-	#-->Handle jump and falling
 	if Input.is_action_just_pressed("move_jump") and rb_player_allow_jump_stage_2:
 		rb_player_allow_jump_stage_2 = 0
 		rb_player_is_active = 1
 		velocity.y = rb_movement_jump
 		rb_current_finite_state_machine_state = "Jump_Stage_2"
-		
 
 	if Input.is_action_just_pressed("move_jump") and is_on_floor() and !rb_dont_allow_jump:
 		rb_player_allow_jump_stage_2 = 1
@@ -182,11 +182,13 @@ func _physics_process(delta):
 		rb_queue_landing = 1
 	#<--
 
+
 	#-->Handle walk/run toggle.
 	if Input.is_action_just_pressed("toggle_walk_or_run") and is_on_floor(): 
 		rb_player_is_active = 1
 		Handle_Movement()
 	#<--
+
 
 	#-->handle crouch
 	if Input.is_action_pressed("crouch") and !rb_player_is_crouching and is_on_floor():
@@ -202,15 +204,10 @@ func _physics_process(delta):
 		Handle_Movement("Crouchn't")
 
 
-			
 	$CollisionShape3D.disabled = false
-	
-
-		
 
 
 	state_machine.travel(rb_current_finite_state_machine_state)
-	
 
 
 	move_and_slide()
