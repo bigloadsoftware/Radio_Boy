@@ -26,6 +26,7 @@ var rb_player_is_active = 0
 var rb_dont_allow_jump = 0
 var rb_player_is_crouching = 0
 var rb_player_is_in_air = 0
+var rb_player_allow_jump_stage_2 = 0
 var rb_queue_idle = 0
 var rb_queue_landing = 0
 var rb_movement_state = "Run"
@@ -148,7 +149,15 @@ func _physics_process(delta):
 		rb_queue_landing = 0
 
 	#-->Handle jump and falling
+	if Input.is_action_just_pressed("move_jump") and rb_player_allow_jump_stage_2:
+		rb_player_allow_jump_stage_2 = 0
+		rb_player_is_active = 1
+		velocity.y = rb_movement_jump
+		rb_current_finite_state_machine_state = "Jump_Stage_2"
+		
+
 	if Input.is_action_just_pressed("move_jump") and is_on_floor() and !rb_dont_allow_jump:
+		rb_player_allow_jump_stage_2 = 1
 		rb_player_is_active = 1
 		velocity.y = rb_movement_jump
 		rb_current_finite_state_machine_state = "Jump_On_Floor"
