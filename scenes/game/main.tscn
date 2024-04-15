@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://dhc2pppvyu3vx"]
+[gd_scene load_steps=8 format=3 uid="uid://dhc2pppvyu3vx"]
 
 [ext_resource type="PackedScene" uid="uid://dhmq5y0dacrgx" path="res://scenes/mobs/radio_boy/Radio_Boy.tscn" id="1_fbjts"]
+[ext_resource type="PackedScene" uid="uid://dqkkr0dko1eij" path="res://scenes/user_interface/rbui.tscn" id="1_hmnhs"]
 [ext_resource type="PackedScene" uid="uid://cg886ulmx7fe1" path="res://models/test/Ground.gltf" id="2_tpm5u"]
 [ext_resource type="PackedScene" uid="uid://c7xereedbecpd" path="res://models/test/Test_Platform.gltf" id="3_g2tda"]
 
@@ -21,6 +22,8 @@ size = Vector3(0.858272, 0.413708, 15.4066)
 size = Vector3(9.04291, 1.48828, 5.95251)
 
 [node name="Main" type="Node"]
+
+[node name="Rbui" parent="." instance=ExtResource("1_hmnhs")]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_xp2vy")
