@@ -33,6 +33,7 @@ rounded = true
 show_percentage = false
 
 [node name="ProgressBar2" type="ProgressBar" parent="."]
+layout_mode = 0
 offset_left = 40.0
 offset_top = 48.0
 offset_right = 390.0
@@ -43,6 +44,7 @@ rounded = true
 show_percentage = false
 
 [node name="ProgressBar3" type="ProgressBar" parent="."]
+layout_mode = 0
 offset_left = 40.0
 offset_top = 71.0
 offset_right = 390.0
