@@ -7,6 +7,42 @@
 [ext_resource type="Curve" uid="uid://7wooko3pjki1" path="res://scenes/mobs/radio_boy/jump_2.tres" id="5_b5lxm"]
 [ext_resource type="Curve" uid="uid://bo8llmy7smq0b" path="res://scenes/mobs/radio_boy/jump_3.tres" id="6_ek46h"]
 
+[sub_resource type="Curve" id="Curve_xog7b"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.727811, 0.626374), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_qjby0"]
+curve = SubResource("Curve_xog7b")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_f2c0y"]
+lifetime_randomness = 0.7
+particle_flag_rotate_y = true
+particle_flag_damping_as_friction = true
+emission_shape_offset = Vector3(0, 0, 0.5)
+emission_shape = 1
+emission_sphere_radius = 1.0
+angle_min = 100.0
+angle_max = 360.0
+spread = 0.0
+gravity = Vector3(0, 4, 0)
+scale_min = 0.5
+scale_max = 2.0
+scale_curve = SubResource("CurveTexture_qjby0")
+turbulence_enabled = true
+turbulence_noise_strength = 10.0
+turbulence_noise_scale = 10.0
+turbulence_noise_speed_random = 2.05
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_stlov"]
+refraction_scale = 0.41
+grow_amount = 0.05
+distance_fade_mode = 1
+distance_fade_max_distance = 20.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_plfqh"]
+material = SubResource("StandardMaterial3D_stlov")
+size = Vector3(0.4, 0.4, 0.4)
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_k3v7m"]
 size = Vector3(1, 5.63934, 2)
 
@@ -3289,44 +3325,18 @@ states/Walk/position = Vector2(497, 160)
 transitions = ["Jump_On_Floor", "Falling", SubResource("AnimationNodeStateMachineTransition_4fvnk"), "Start", "Idle", SubResource("AnimationNodeStateMachineTransition_3lgw7"), "Run", "Idle", SubResource("AnimationNodeStateMachineTransition_nadrd"), "Walk", "Idle", SubResource("AnimationNodeStateMachineTransition_3tfff"), "Idle", "Crouch", SubResource("AnimationNodeStateMachineTransition_nj16o"), "Crouch", "Idle", SubResource("AnimationNodeStateMachineTransition_gwtki"), "Crouch_Walk", "Crouch", SubResource("AnimationNodeStateMachineTransition_7ejff"), "Jump_Stage_2", "Falling", SubResource("AnimationNodeStateMachineTransition_m8aqr")]
 graph_offset = Vector2(-103, 103)
 
-[sub_resource type="Curve" id="Curve_xog7b"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.727811, 0.626374), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 3
-
-[sub_resource type="CurveTexture" id="CurveTexture_qjby0"]
-curve = SubResource("Curve_xog7b")
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_f2c0y"]
-lifetime_randomness = 0.7
-particle_flag_rotate_y = true
-particle_flag_damping_as_friction = true
-emission_shape_offset = Vector3(0, 0, 0.5)
-emission_shape = 1
-emission_sphere_radius = 1.0
-angle_min = 100.0
-angle_max = 360.0
-spread = 0.0
-gravity = Vector3(0, 4, 0)
-scale_min = 0.5
-scale_max = 2.0
-scale_curve = SubResource("CurveTexture_qjby0")
-turbulence_enabled = true
-turbulence_noise_strength = 10.0
-turbulence_noise_scale = 10.0
-turbulence_noise_speed_random = 2.05
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_stlov"]
-refraction_scale = 0.41
-grow_amount = 0.05
-distance_fade_mode = 1
-distance_fade_max_distance = 20.0
-
-[sub_resource type="BoxMesh" id="BoxMesh_plfqh"]
-material = SubResource("StandardMaterial3D_stlov")
-size = Vector3(0.4, 0.4, 0.4)
-
 [node name="Radio_Boy" type="CharacterBody3D"]
 script = ExtResource("1_4ga08")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+amount = 15
+lifetime = 1.5
+preprocess = 1.0
+speed_scale = 1.5
+randomness = 1.0
+fixed_fps = 60
+process_material = SubResource("ParticleProcessMaterial_f2c0y")
+draw_pass_1 = SubResource("BoxMesh_plfqh")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.808, 0)
@@ -3363,16 +3373,16 @@ script = ExtResource("3_amske")
 [node name="Radio_Boy_Model" parent="." instance=ExtResource("2_74wy5")]
 
 [node name="Torso2" parent="Radio_Boy_Model/Node/Root" index="0"]
-transform = Transform3D(0.997673, 0, -0.0681585, 0, 1, 0, 0.0681585, 0, 0.997673, 0, -0.394778, 0)
+transform = Transform3D(0.99664, 0, 0.0818921, 0, 1, 0, -0.0818921, 0, 0.99664, 0, -0.31765, 0)
 
 [node name="Head2" parent="Radio_Boy_Model/Node/Root/Torso2/Neck2" index="1"]
-transform = Transform3D(1, 0, 0, 0, 0.996195, 0.0871558, 0, -0.0871558, 0.996195, 0, 0.372969, 0.03125)
+transform = Transform3D(1, 0, 0, 0, 0.996195, 0.0871558, 0, -0.0871558, 0.996195, 0, 0.374514, 0.03125)
 
 [node name="Ant_L2" parent="Radio_Boy_Model/Node/Root/Torso2/Neck2/Head2" index="4"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.316617, 0.698565, 0.403713)
+transform = Transform3D(1, 0, 0, 0, 0.998848, 0.0479781, 0, -0.0479781, 0.998848, -0.316617, 0.698565, 0.403713)
 
 [node name="Ant_R2" parent="Radio_Boy_Model/Node/Root/Torso2/Neck2/Head2" index="5"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.316617, 0.698565, 0.403713)
+transform = Transform3D(1, 0, 0, 0, 0.998848, 0.0479781, 0, -0.0479781, 0.998848, 0.316617, 0.698565, 0.403713)
 
 [node name="SpotLight3D" type="SpotLight3D" parent="Radio_Boy_Model/Node/Root/Torso2/Neck2/Head2" index="6"]
 transform = Transform3D(1, 4.65661e-10, -7.45058e-09, 0, -1, 6.70552e-08, -7.45058e-09, -8.9407e-08, -1, -9.31323e-10, 0.5, -0.85)
@@ -3392,10 +3402,10 @@ spot_range = 5.68828
 spot_angle = 37.0975
 
 [node name="Arm_L2" parent="Radio_Boy_Model/Node/Root/Torso2" index="5"]
-transform = Transform3D(1, 0, 0, 0, 0.934335, -0.356389, 0, 0.356389, 0.934334, -0.749644, 0.734156, 0.0129776)
+transform = Transform3D(1, 0, 0, 0, 0.99569, 0.0927179, 0, -0.0927179, 0.995689, -0.749644, 0.734156, 0.0129776)
 
 [node name="Forearm_L2" parent="Radio_Boy_Model/Node/Root/Torso2/Arm_L2" index="0"]
-transform = Transform3D(0.999999, 0, 0, 0, 0.976173, -0.216996, 0, 0.216997, 0.976172, -0.332776, -0.99569, 0.100652)
+transform = Transform3D(0.999999, 0, 0, 0, 0.99683, -0.079572, 0, 0.0795721, 0.996829, -0.332776, -0.99569, 0.100652)
 
 [node name="Thumb_L" parent="Radio_Boy_Model/Node/Root/Torso2/Arm_L2/Forearm_L2" index="0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.167224, -0.830749, -0.178321)
@@ -3413,10 +3423,10 @@ transform = Transform3D(1, 0, 0, 0, 0.984807, 0.173648, 0, -0.173648, 0.984808, 
 transform = Transform3D(0.999998, 0, 0, 0, 0.999998, 0, 0, 0, 1, 0, -0.1875, -0.015625)
 
 [node name="Arm_R2" parent="Radio_Boy_Model/Node/Root/Torso2" index="6"]
-transform = Transform3D(1, 0, 0, 0, 0.99438, 0.105854, 0, -0.105854, 0.994382, 0.749644, 0.734156, 0.0129776)
+transform = Transform3D(1, 0, 0, 0, 0.939691, -0.34202, 0, 0.34202, 0.939693, 0.749644, 0.734156, 0.0129776)
 
 [node name="Forearm_R2" parent="Radio_Boy_Model/Node/Root/Torso2/Arm_R2" index="0"]
-transform = Transform3D(1, 0, 0, 0, 0.983853, -0.178989, 0, 0.178989, 0.98385, 0.332776, -0.99569, 0.100652)
+transform = Transform3D(1, 0, 0, 0, 0.949671, -0.313255, 0, 0.313256, 0.949668, 0.332776, -0.99569, 0.100652)
 
 [node name="Thumb_R" parent="Radio_Boy_Model/Node/Root/Torso2/Arm_R2/Forearm_R2" index="0"]
 transform = Transform3D(0.999999, 0, 0, 0, 1, 0, 0, 0, 0.999999, 0.167224, -0.830749, -0.178321)
@@ -3431,22 +3441,22 @@ transform = Transform3D(0.999998, 0, 0, 0, 0.996195, 0.0871558, 0, -0.0871558, 0
 transform = Transform3D(1, 0, 0, 0, 0.984807, 0.173648, 0, -0.173648, 0.984808, 0.104724, -0.972941, 0.175008)
 
 [node name="Backpack2" parent="Radio_Boy_Model/Node/Root/Torso2" index="7"]
-transform = Transform3D(0.994769, 0.102155, 0, -0.102155, 0.994769, 0, 0, 0, 0.999999, 0.00148537, 0.777778, 0.286006)
+transform = Transform3D(0.990403, -0.138213, 0, 0.138213, 0.990403, 0, 0, 0, 0.999999, 0.00148537, 0.777778, 0.286006)
 
 [node name="Hips2" parent="Radio_Boy_Model/Node/Root" index="1"]
-transform = Transform3D(0.999342, 0, 0.0362614, 0, 1, 0, -0.0362614, 0, 0.999342, 0, -0.660685, -0.09375)
+transform = Transform3D(0.996483, 0, -0.0837946, 0, 1, 0, 0.0837946, 0, 0.996483, 0, -0.586458, -0.09375)
 
 [node name="Leg_L2" parent="Radio_Boy_Model/Node/Root/Hips2" index="2"]
-transform = Transform3D(1, 0, 0, 0, 0.996332, -0.0855564, 0, 0.0855564, 0.996332, -0.499644, -0.0706501, -0.0307153)
+transform = Transform3D(1, 0, 0, 0, 0.999975, -0.00692723, 0, 0.00692723, 0.999975, -0.499644, -0.0706501, -0.0307153)
 
 [node name="Stilt_L2" parent="Radio_Boy_Model/Node/Root/Hips2/Leg_L2" index="1"]
-transform = Transform3D(1, 0, 0, 0, 0.985223, 0.171276, 0, -0.171276, 0.985223, -0.0625, -1.0625, -0.0625)
+transform = Transform3D(1, 0, 0, 0, 0.998541, 0.0539979, 0, -0.0539979, 0.998541, -0.0625, -1.0625, -0.0625)
 
 [node name="Leg_R2" parent="Radio_Boy_Model/Node/Root/Hips2" index="3"]
-transform = Transform3D(1, 0, 0, 0, 0.996334, -0.0855566, 0, 0.0855566, 0.996334, 0.499644, -0.0706501, -0.0307153)
+transform = Transform3D(1, 0, 0, 0, 0.999977, -0.00692725, 0, 0.00692725, 0.999977, 0.499644, -0.0706501, -0.0307153)
 
 [node name="Stilt_R2" parent="Radio_Boy_Model/Node/Root/Hips2/Leg_R2" index="1"]
-transform = Transform3D(1, 0, 0, 0, 0.985222, 0.171276, 0, -0.171276, 0.985222, 0.0625, -1.0625, -0.0625)
+transform = Transform3D(1, 0, 0, 0, 0.99854, 0.0539978, 0, -0.0539978, 0.99854, 0.0625, -1.0625, -0.0625)
 
 [node name="Stilt_R" parent="Radio_Boy_Model/Node/Root/Hips2/Leg_R2/Stilt_R2" index="0"]
 transform = Transform3D(0.0051022, 0.999882, 0.0145801, -0.996366, 0.00384343, 0.0850954, 0.0850291, -0.0149611, 0.996268, -0.0272293, 0.0500715, 0.0564787)
@@ -3460,15 +3470,5 @@ anim_player = NodePath("../AnimationPlayer")
 parameters/conditions/GoInIdle = false
 parameters/conditions/IsCrouching = false
 parameters/conditions/IsFalling = false
-
-[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
-amount = 15
-lifetime = 1.5
-preprocess = 1.0
-speed_scale = 1.5
-randomness = 1.0
-fixed_fps = 60
-process_material = SubResource("ParticleProcessMaterial_f2c0y")
-draw_pass_1 = SubResource("BoxMesh_plfqh")
 
 [editable path="Radio_Boy_Model"]
