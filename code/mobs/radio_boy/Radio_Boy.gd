@@ -55,18 +55,6 @@ func _physics_process(delta):
 	animation_tree.set("parameters/conditions/GoInIdle", false)
 	animation_tree.set("parameters/conditions/IsCrouching", false)
 
-	if rb_last_direction_faced == "Right":
-		if($RayCast3D_RL.is_colliding() and !$RayCast3D_RH.is_colliding()):
-			$CollisionShape3D.disabled = true
-			position.y += 0.5
-			position.z -= 0.8
-	
-	else:
-		if($RayCast3D_LL.is_colliding() and !$RayCast3D_LH.is_colliding()):
-			$CollisionShape3D.disabled = true
-			position.y += 0.5
-			position.z += 0.8
-
 
 	#-->Add gravity
 	if not is_on_floor():
@@ -74,11 +62,29 @@ func _physics_process(delta):
 		rb_queue_idle = 1
 		velocity.y -= gravity * delta
 	#<--
-	
-	$GPUParticles3D.emitting = false
 
-	if is_on_floor() and velocity.z:
+
+	if rb_last_direction_faced == "Right":
+		if($RayCast3D_RL.is_colliding() and !$RayCast3D_RH.is_colliding()):
+			$CollisionShape3D.disabled = true
+			position.y += 0.8
+			position.z -= 1
+	
+	else:
+		if($RayCast3D_LL.is_colliding() and !$RayCast3D_LH.is_colliding()):
+			$CollisionShape3D.disabled = true
+			position.y += 0.8
+			position.z += 1
+
+
+	#-->Emit particles when running
+	if is_on_floor() and velocity.z and !rb_player_is_crouching:
 		$GPUParticles3D.emitting = true
+
+	else:
+		$GPUParticles3D.emitting = false
+	#<--
+
 
 	if rb_queue_idle and !rb_player_is_active:
 		rb_queue_idle = 0
@@ -156,6 +162,7 @@ func _physics_process(delta):
 		elif rb_last_direction_faced == "Left":
 			Smooth_Turn(205, TIME_TURN_WALK)
 	#<--
+
 
 	#-->Handle jump and falling
 	if is_on_floor() and rb_queue_landing:
