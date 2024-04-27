@@ -127,6 +127,9 @@ func _physics_process(delta):
 	if abs(velocity.z) < 0.2: #We'll have to sanitize all of this stuff....
 		velocity.z = 0
 
+	if (input_dir.y > 0 and velocity.z < 0) or (input_dir.y < 0 and velocity.z > 0):
+		velocity.z = 0
+
 	if direction:  #Handle directions (which are only two...)
 		rb_player_is_active = 1
 		rb_queue_idle = 1
